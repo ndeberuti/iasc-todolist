@@ -6,31 +6,31 @@ class TodoList {
 
     getSortedTasks() {
         return list.tasks.sort(function (a, b) {
-            if (a.last_task == null) {
+            if (a.lastTask == null) {
                 return -1;
             }
 
-            if (b.last_task == null) {
+            if (b.lastTask == null) {
                 return 1;
             }
 
-            if (a.next_task == b) {
+            if (a.nextTask == b) {
                 return -1;
             }
 
-            if (a.last_task == b) {
+            if (a.lastTask == b) {
                 return 1;
             }
 
-            if (b.last_task == a) {
+            if (b.lastTask == a) {
                 return -1;
             }
 
-            if (b.next_task == a) {
+            if (b.nextTask == a) {
                 return 1;
             }
 
-            if (a.next_task == null) {
+            if (a.nextTask == null) {
                 return 1;
             }
 

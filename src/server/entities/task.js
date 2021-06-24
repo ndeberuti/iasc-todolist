@@ -1,8 +1,8 @@
 class Task {
-    constructor(value, last_task, next_task) {
+    constructor(value, lastTask, nextTask) {
         this.value = value;
-        this.last_task = last_task;
-        this.next_task = next_task;
+        this.lastTask = lastTask;
+        this.nextTask = nextTask;
     }
 
     putBefore(task) {
@@ -11,14 +11,14 @@ class Task {
             this.unlinkTask(task);
 
             //Se hubica la task en la posición deseada
-            this.last_task = task.last_task;
-            this.next_task = task;
+            this.lastTask = task.lastTask;
+            this.nextTask = task;
 
             //Modicamos la tasks necesarias
-            if (task.last_task != null) {
-                (task.last_task).next_task = this
+            if (task.lastTask != null) {
+                (task.lastTask).nextTask = this
             }
-            task.last_task = this;
+            task.lastTask = this;
         }
     }
 
@@ -28,26 +28,26 @@ class Task {
             this.unlinkTask(task);
 
             //Se hubica la task en la posición deseada
-            this.next_task = task.next_task;
-            this.last_task = task;
+            this.nextTask = task.nextTask;
+            this.lastTask = task;
 
             //Modicamos la tasks necesarias
-            if (task.next_task != null) {
-                (task.next_task).last_task = this
+            if (task.nextTask != null) {
+                (task.nextTask).lastTask = this
             }
-            task.next_task = this;
+            task.nextTask = this;
         }
     }
 
     //Desvinculamos la task de sus posición actual
     unlinkTask(task) {
-        let last = this.last_task;
-        let next = this.next_task;
+        let last = this.lastTask;
+        let next = this.nextTask;
         if (last != null) {
-            last.next_task = next;
+            last.nextTask = next;
         }
         if (next != null) {
-            next.last_task = last;
+            next.lastTask = last;
         }
     }
 
