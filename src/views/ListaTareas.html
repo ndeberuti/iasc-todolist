@@ -176,11 +176,12 @@
     <script type="text/javascript">
 
       class Tarea{
-        constructor(id, descripcion, estasTerminada, unOrden){
+        constructor(id, descripcion, estasTerminada){
           this.id = id;
           this.descripcion = descripcion;
           this.estasTerminada = estasTerminada;
-          this.orden = unOrden;
+          this.idSiguienteTarea = null;
+          this.idAnteriorTarea = null;
         }
         terminate(){
           this.estasTerminada = true;
@@ -196,27 +197,85 @@
           this.nombre = unNombre;
           this.tareas = [];
         }
-        agregaUnaTarea(unaTarea){
+        obtenerUltimaTareaDeLaLista(){
+          return this.tareas.find(unaTarea => unaTarea.idSiguienteTarea==null);
+        }
+
+        obtenerPrimerTareaDeLaLista(){
+          return this.tareas.find(unaTarea => unaTarea.idAnteriorTarea==null);
+        }
+
+        obteneTareasOrdenadas(){
+          var tareasOrdenadas = [];
+          var primerTarea = this.obtenerPrimerTareaDeLaLista();
+          var unaTarea = primerTarea;
+          while(unaTarea!=null){
+            tareasOrdenadas.push(unaTarea);
+            unaTarea = this.obtenrTareaSegunId(unaTarea.idSiguienteTarea);
+          }
+          return tareasOrdenadas;
+        }
+
+        agregaLogicamente(unaTarea, unaPosicion){
+          this.eliminaLogicamente(unaTarea);
+          var tareasOrdenadas = this.obteneTareasOrdenadas();
+
+          if(unaPosicion==1){
+            unaTarea.idAnteriorTarea = null;
+            unaTarea.idSiguienteTarea = tareasOrdenadas[unaPosicion-1].id;
+            tareasOrdenadas[unaPosicion-1].idAnteriorTarea = unaTarea.id;
+          }
+          else if(unaPosicion==this.tareas.length){
+            unaTarea.idSiguienteTarea=null;
+            unaTarea.idAnteriorTarea = tareasOrdenadas[unaPosicion-2].id;
+            tareasOrdenadas[unaPosicion-2].idSiguienteTarea = unaTarea.id;
+          }
+          else{
+            unaTarea.idAnteriorTarea = tareasOrdenadas[unaPosicion-2].id;
+            unaTarea.idSiguienteTarea = tareasOrdenadas[unaPosicion-1].id;
+            tareasOrdenadas[unaPosicion-2].idSiguienteTarea = unaTarea.id;
+            tareasOrdenadas[unaPosicion-1].idAnteriorTarea = unaTarea.id;
+          }     
+        }
+
+        agrega(unaTarea){
+          var ultimaTareaDeLaLista = this.obtenerUltimaTareaDeLaLista();
+          if(ultimaTareaDeLaLista!=null){
+            ultimaTareaDeLaLista.idSiguienteTarea = unaTarea.id;
+            unaTarea.idAnteriorTarea = ultimaTareaDeLaLista.id;
+          }
           this.tareas.push(unaTarea);
         }
+
+        eliminaLogicamente(unaTarea){
+          this.tareas
+            .filter(unaTareaDeLaLista => unaTareaDeLaLista.idSiguienteTarea == unaTarea.id)
+            .forEach(unaTareaDeLaLista => unaTareaDeLaLista.idSiguienteTarea = unaTarea.idSiguienteTarea);
+          this.tareas
+            .filter(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea == unaTarea.id)
+            .forEach(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea = unaTarea.idAnteriorTarea);
+        }
+
+        moveA(unaTarea, unaPosicion){
+          this.eliminaLogicamente(unaTarea);
+          this.agregaLogicamente(unaTarea, unaPosicion);
+        }
+
         elimina(unaTarea){
+          this.eliminaLogicamente(unaTarea);
           this.tareas = $.grep(this.tareas, function(unaTareaDeLaLista) {
             return unaTareaDeLaLista != unaTarea;
           });
         }
-        obteneTareaSegunOrden(unOrden){
-          return this.tareas.find(function(unaTarea){
-            return unaTarea.orden == unOrden;
-          });
+
+        obteneTareaSegunPosicion(unaPosicion){
+          return this.obteneTareasOrdenadas()[unaPosicion-1];
         }
+
         obtenrTareaSegunId(unId){
           return this.tareas.find(function(unaTarea){
             return unaTarea.id == unId;
           });
-        }
-        moverTodasLasTareasUnaPosicionEntre(posicionInicial, posicionFinal){
-          this.tareas.filter(unaTarea => (unaTarea.orden >= posicionInicial) && (unaTarea.orden <= posicionFinal))
-            .forEach(unaTarea => unaTarea.orden = unaTarea.orden+1);
         }
       }
 
@@ -226,10 +285,6 @@
 
       function obtenerIdLista(){
         return 1;
-      }
-
-      function actualizarOrdenTareasAlMoverlas(){
-        listaTareas.tareas.forEach(unaTarea => unaTarea.orden = $("#item"+unaTarea.id).index()+1);
       }
 
       function generarTareaHtml(unaTarea){
@@ -255,7 +310,6 @@
             p.fadeOut(function(){
             p.remove();
             liTarea.remove();
-            actualizarOrdenTareasAlMoverlas();
           });
         });
 
@@ -273,21 +327,17 @@
         }
       }
 
-      function compararTareasSegunOrden(unaTarea, otraTarea){
-        return unaTarea.orden - otraTarea.orden;
-      }
-
-      function generarTareasHtml(unasTareas){
-        unasTareas.sort(compararTareasSegunOrden).forEach(unaTarea => generarTareaHtml(unaTarea));
+      function generarTareasHtml(){
+        listaTareas.obteneTareasOrdenadas().forEach(unaTarea => generarTareaHtml(unaTarea));
       }
 
       function removerTareasHtml(){
         $("#lstTareas").empty();
       }
 
-      function actualizarTareasHtml(unasTareas){
+      function actualizarTareasHtml(){
         removerTareasHtml();
-        generarTareasHtml(unasTareas);
+        generarTareasHtml();
       }
 
       var listaTareas; 
@@ -305,8 +355,17 @@
       });
 
       $( "#lstTareas" ).sortable({
+        
+        start: function(e, ui) {
+          // creates a temporary attribute on the element with the old index
+          $(this).attr('data-previndex', ui.item.index());
+        },
+
         update: function(event, ui){
-          actualizarOrdenTareasAlMoverlas();
+          var posicionADondeSeMueve = ui.item.index()+1;
+          var posicionVieja = parseInt($(this).attr('data-previndex'))+1;
+          var tareaQueSeMueve = listaTareas.obteneTareaSegunPosicion(posicionVieja);
+          listaTareas.moveA(tareaQueSeMueve, posicionADondeSeMueve);
         }
       });
       $( "#lstTareas" ).disableSelection();
@@ -317,11 +376,10 @@
         {
           var descripcionTarea = $("#txtNuevaTarea").val();
           var estaTerminada = false;
-          var ordenTarea = listaTareas.tareas.length+1;
           var idTarea = listaTareas.tareas.length;
 
-          var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada, ordenTarea);
-          listaTareas.agregaUnaTarea(tarea);
+          var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
+          listaTareas.agrega(tarea);
 
           generarTareaHtml(tarea);
 
@@ -334,11 +392,10 @@
         {
           var descripcionTarea = $("#txtNuevaTarea").val();
           var estaTerminada = false;
-          var ordenTarea = listaTareas.tareas.length+1;
           var idTarea = listaTareas.tareas.length;
 
-          var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada, ordenTarea);
-          listaTareas.agregaUnaTarea(tarea);
+          var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
+          listaTareas.agrega(tarea);
 
           generarTareaHtml(tarea);
 
