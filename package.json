@@ -1,0 +1,23 @@
+{
+  "name": "iasc-todolist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server/server/app.js",
+  "scripts": {
+    "start": "node src/server/server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndeberuti/iasc-todolist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ndeberuti/iasc-todolist/issues"
+  },
+  "homepage": "https://github.com/ndeberuti/iasc-todolist#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
