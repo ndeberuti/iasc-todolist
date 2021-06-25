@@ -6,41 +6,43 @@ class Task {
   }
 
   putBefore(task) {
-    if (this != task) {
+    const taskRef = task;
+    if (this !== taskRef) {
       // Desvinculamos la task de sus posición actual
-      this.unlinkTask(task);
+      this.unlinkTask();
 
       // Se hubica la task en la posición deseada
-      this.lastTask = task.lastTask;
-      this.nextTask = task;
+      this.lastTask = taskRef.lastTask;
+      this.nextTask = taskRef;
 
       // Modicamos la tasks necesarias
-      if (task.lastTask != null) {
-        (task.lastTask).nextTask = this;
+      if (taskRef.lastTask != null) {
+        (taskRef.lastTask).nextTask = this;
       }
-      task.lastTask = this;
+      taskRef.lastTask = this;
     }
   }
 
   putAfter(task) {
-    if (this != task) {
+    const taskRef = task;
+    if (this !== taskRef) {
       // Desvinculamos la task de sus posición actual
-      this.unlinkTask(task);
+      this.unlinkTask();
 
       // Se hubica la task en la posición deseada
       this.nextTask = task.nextTask;
       this.lastTask = task;
 
       // Modicamos la tasks necesarias
-      if (task.nextTask != null) {
-        (task.nextTask).lastTask = this;
+      if (taskRef.nextTask != null) {
+        (taskRef.nextTask).lastTask = this;
       }
-      task.nextTask = this;
+      taskRef.nextTask = this;
     }
   }
 
   // Desvinculamos la task de sus posición actual
-  unlinkTask(task) {
+  unlinkTask() {
     const last = this.lastTask;
     const next = this.nextTask;
     if (last != null) {
@@ -51,3 +53,5 @@ class Task {
     }
   }
 }
+
+module.exports = Task;
