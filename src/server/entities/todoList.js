@@ -5,7 +5,7 @@ class TodoList {
     }
 
     getSortedTasks() {
-        return list.tasks.sort(function (a, b) {
+        return this.tasks.sort(function (a, b) {
             if (a.lastTask == null) {
                 return -1;
             }
@@ -34,7 +34,7 @@ class TodoList {
                 return 1;
             }
 
-            if (b.next_task == null) {
+            if (b.nextTask == null) {
                 return -1;
             }
 
