@@ -1,54 +1,57 @@
 class Task {
-    constructor(value, lastTask, nextTask) {
-        this.value = value;
-        this.lastTask = lastTask;
-        this.nextTask = nextTask;
+  constructor(value, lastTask, nextTask) {
+    this.value = value;
+    this.lastTask = lastTask;
+    this.nextTask = nextTask;
+  }
+
+  putBefore(task) {
+    const taskRef = task;
+    if (this !== taskRef) {
+      // Desvinculamos la task de sus posición actual
+      this.unlinkTask();
+
+      // Se hubica la task en la posición deseada
+      this.lastTask = taskRef.lastTask;
+      this.nextTask = taskRef;
+
+      // Modicamos la tasks necesarias
+      if (taskRef.lastTask != null) {
+        (taskRef.lastTask).nextTask = this;
+      }
+      taskRef.lastTask = this;
     }
+  }
 
-    putBefore(task) {
-        if (this != task) {
-            //Desvinculamos la task de sus posición actual
-            this.unlinkTask(task);
+  putAfter(task) {
+    const taskRef = task;
+    if (this !== taskRef) {
+      // Desvinculamos la task de sus posición actual
+      this.unlinkTask();
 
-            //Se hubica la task en la posición deseada
-            this.lastTask = task.lastTask;
-            this.nextTask = task;
+      // Se hubica la task en la posición deseada
+      this.nextTask = task.nextTask;
+      this.lastTask = task;
 
-            //Modicamos la tasks necesarias
-            if (task.lastTask != null) {
-                (task.lastTask).nextTask = this
-            }
-            task.lastTask = this;
-        }
+      // Modicamos la tasks necesarias
+      if (taskRef.nextTask != null) {
+        (taskRef.nextTask).lastTask = this;
+      }
+      taskRef.nextTask = this;
     }
+  }
 
-    putAfter(task) {
-        if (this != task) {
-            //Desvinculamos la task de sus posición actual
-            this.unlinkTask(task);
-
-            //Se hubica la task en la posición deseada
-            this.nextTask = task.nextTask;
-            this.lastTask = task;
-
-            //Modicamos la tasks necesarias
-            if (task.nextTask != null) {
-                (task.nextTask).lastTask = this
-            }
-            task.nextTask = this;
-        }
+  // Desvinculamos la task de sus posición actual
+  unlinkTask() {
+    const last = this.lastTask;
+    const next = this.nextTask;
+    if (last != null) {
+      last.nextTask = next;
     }
-
-    //Desvinculamos la task de sus posición actual
-    unlinkTask(task) {
-        let last = this.lastTask;
-        let next = this.nextTask;
-        if (last != null) {
-            last.nextTask = next;
-        }
-        if (next != null) {
-            next.lastTask = last;
-        }
+    if (next != null) {
+      next.lastTask = last;
     }
-
+  }
 }
+
+module.exports = Task;

@@ -4,8 +4,32 @@ class TodoList {
         this.isPublic = false;
     }
 
+    removeTask(task) {
+        const pos = this.tasks.indexOf(task);
+        // Avoid remove other task
+        if (pos >= 0) {
+            this.tasks.splice(pos, 1);
+        }
+        task.unlinkTask();
+    }
+
+    pushTask(task) {
+        // Avoid re-insert an existed task
+        const exist = this.tasks.indexOf(task) >= 0;
+        if (!exist) {
+            // Unlink Task
+            task.unlinkTask();
+            const sortedTasks = this.getSortedTasks();
+            const lastTaks = sortedTasks[this.tasks.length - 1];
+            if (lastTaks != null) {
+                task.putAfter(lastTaks);
+            }
+            this.tasks.push(task);
+        }
+    }
+
     getSortedTasks() {
-        return list.tasks.sort(function (a, b) {
+        return this.tasks.sort((a, b) => {
             if (a.lastTask == null) {
                 return -1;
             }
@@ -34,7 +58,7 @@ class TodoList {
                 return 1;
             }
 
-            if (b.next_task == null) {
+            if (b.nextTask == null) {
                 return -1;
             }
 
@@ -42,3 +66,5 @@ class TodoList {
         });
     }
 }
+
+module.exports = TodoList;
