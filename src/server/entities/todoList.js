@@ -5,7 +5,7 @@ class TodoList {
     }
 
     removeTask(task) {
-        let pos = this.tasks.indexOf(task);
+        const pos = this.tasks.indexOf(task);
         //Avoid remove other task
         if (pos >= 0) {
             this.tasks.splice(pos, 1);
@@ -18,10 +18,10 @@ class TodoList {
         task.unlinkTask();
 
         //Avoid re-insert an existed task
-        let exist = this.tasks.indexOf(task) >= 0;
+        const exist = this.tasks.indexOf(task) >= 0;
         if (!exist) {
-            let sortedTasks = this.getSortedTasks();
-            let lastTaks = this.tasks[this.tasks.length - 1];
+            const sortedTasks = this.getSortedTasks();
+            const lastTaks = this.tasks[this.tasks.length - 1];
             if (lastTaks != null) {
                 task.putAfter(lastTaks);
             }
