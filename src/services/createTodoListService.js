@@ -4,7 +4,7 @@ const createTodoListService = (owner) => {
   const todoList = new TodoList(owner);
   console.log(todoList);
 
-  return todoList;
+  return todoList.id;
 };
 
 module.exports = {
