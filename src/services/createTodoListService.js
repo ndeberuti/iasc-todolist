@@ -1,7 +1,7 @@
 const TodoList = require('../entities/todoList');
 
-const createTodoListService = () => {
-  const todoList = new TodoList();
+const createTodoListService = (owner) => {
+  const todoList = new TodoList(owner);
   console.log(todoList);
 
   return todoList;

@@ -2,7 +2,9 @@ const { createTodoListService } = require('../../services/createTodoListService'
 
 const create = async (req, res, next) => {
   try {
-    return createTodoListService();
+    const { owner } = req.body;
+
+    return createTodoListService(owner);
   } catch (error) {
     next(error);
   }
