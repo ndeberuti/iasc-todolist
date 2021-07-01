@@ -1,5 +1,5 @@
 class TodoList {
-    constructor(tasks) {
+    constructor(tasks = []) {
         this.tasks = tasks;
         this.isPublic = false;
     }
