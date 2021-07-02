@@ -1,5 +1,8 @@
+const uuid = require('../lib/uuid');
+
 class Task {
   constructor(value, lastTask, nextTask) {
+    this.id = uuid();
     this.value = value;
     this.lastTask = lastTask;
     this.nextTask = nextTask;
@@ -7,7 +10,7 @@ class Task {
 
   putBefore(task) {
     const taskRef = task;
-    if (this !== taskRef) {
+    if (!this.equals(taskRef)) {
       // Desvinculamos la task de sus posición actual
       this.unlinkTask();
 
@@ -25,7 +28,7 @@ class Task {
 
   putAfter(task) {
     const taskRef = task;
-    if (this !== taskRef) {
+    if (!this.equals(taskRef)) {
       // Desvinculamos la task de sus posición actual
       this.unlinkTask();
 
@@ -51,6 +54,10 @@ class Task {
     if (next != null) {
       next.lastTask = last;
     }
+  }
+
+  equals(task) {
+    return this.id === task.id;
   }
 }
 
