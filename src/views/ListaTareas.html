@@ -211,7 +211,7 @@
           var unaTarea = primerTarea;
           while(unaTarea!=null){
             tareasOrdenadas.push(unaTarea);
-            unaTarea = this.obtenrTareaSegunId(unaTarea.idSiguienteTarea);
+            unaTarea = this.obtenerTareaSegunId(unaTarea.idSiguienteTarea);
           }
           return tareasOrdenadas;
         }
@@ -274,7 +274,7 @@
           return this.obteneTareasOrdenadas()[unaPosicion-1];
         }
 
-        obtenrTareaSegunId(unId){
+        obtenerTareaSegunId(unId){
           return this.tareas.find(function(unaTarea){
             return unaTarea.id == unId;
           });
@@ -287,6 +287,10 @@
 
       function obtenerIdLista(){
         return 1;
+      }
+
+      function obtenerIdTareaNueva(){
+        return listaTareas.tareas.length.toString();
       }
 
       function generarTareaHtml(unaTarea){
@@ -350,8 +354,8 @@
       });
 
       $("#btnGuardar").click(function(){
-        var idTareaEditada = parseInt($("#lblIdTareaQueSeEstaEditando").text());
-        var tareaEditada = listaTareas.obtenrTareaSegunId(idTareaEditada);
+        var idTareaEditada = $("#lblIdTareaQueSeEstaEditando").text();
+        var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
         tareaEditada.descripcion = $("#txtItem").val();
         $("#lblTarea"+idTareaEditada).text(tareaEditada.descripcion);
       });
@@ -378,7 +382,7 @@
         {
           var descripcionTarea = $("#txtNuevaTarea").val();
           var estaTerminada = false;
-          var idTarea = listaTareas.tareas.length;
+          var idTarea = obtenerIdTareaNueva();
 
           var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
           listaTareas.agrega(tarea);
@@ -394,7 +398,7 @@
         {
           var descripcionTarea = $("#txtNuevaTarea").val();
           var estaTerminada = false;
-          var idTarea = listaTareas.tareas.length;
+          var idTarea = obtenerIdTareaNueva();
 
           var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
           listaTareas.agrega(tarea);
