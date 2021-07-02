@@ -202,7 +202,7 @@
         }
 
         obtenerPrimerTareaDeLaLista(){
-          return this.tareas.find(unaTarea => unaTarea.idAnteriorTarea==null);
+          return this.tareas.find(unaTarea => unaTarea.idAnteriorTarea==null && unaTarea.idSiguienteTarea!=null);
         }
 
         obteneTareasOrdenadas(){
@@ -254,6 +254,8 @@
           this.tareas
             .filter(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea == unaTarea.id)
             .forEach(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea = unaTarea.idAnteriorTarea);
+          unaTarea.idAnteriorTarea = null;
+          unaTarea.idSiguienteTarea = null;
         }
 
         moveA(unaTarea, unaPosicion){
