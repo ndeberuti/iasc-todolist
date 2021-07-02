@@ -9,7 +9,7 @@ class TodoList {
   }
 
   removeTask(task) {
-    const pos = this.tasks.indexOf(task);
+    const pos = this.tasks.findIndex((x) => x.equals(task));
     // Avoid remove other task
     if (pos >= 0) {
       this.tasks.splice(pos, 1);
@@ -19,7 +19,7 @@ class TodoList {
 
   pushTask(task) {
     // Avoid re-insert an existed task
-    const exist = this.tasks.indexOf(task) >= 0;
+    const exist = this.tasks.findIndex((x) => x.equals(task)) >= 0;
     if (!exist) {
       // Unlink Task
       task.unlinkTask();
@@ -42,28 +42,28 @@ class TodoList {
         return 1;
       }
 
-      if (a.nextTask == b) {
-        return -1;
-      }
-
-      if (a.lastTask == b) {
-        return 1;
-      }
-
-      if (b.lastTask == a) {
-        return -1;
-      }
-
-      if (b.nextTask == a) {
-        return 1;
-      }
-
       if (a.nextTask == null) {
         return 1;
       }
 
       if (b.nextTask == null) {
         return -1;
+      }
+
+      if (a.nextTask.equals(b)) {
+        return -1;
+      }
+
+      if (a.lastTask.equals(b)) {
+        return 1;
+      }
+
+      if (b.lastTask.equals(a)) {
+        return -1;
+      }
+
+      if (b.nextTask.equals(a)) {
+        return 1;
       }
 
       return 0;
