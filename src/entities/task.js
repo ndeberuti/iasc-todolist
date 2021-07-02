@@ -6,6 +6,7 @@ class Task {
     this.value = value;
     this.lastTask = lastTask;
     this.nextTask = nextTask;
+    this.check = false;
   }
 
   putBefore(task) {
