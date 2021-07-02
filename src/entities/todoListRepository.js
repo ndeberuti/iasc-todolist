@@ -7,6 +7,10 @@ class TodoListRepository {
     this.todoLists.push(todoList);
   }
 
+  getTodoListById(id) {
+    return this.todoLists.find((x) => x.id === id);
+  }
+
   showTodoLists() {
     console.log(this.todoLists);
   }

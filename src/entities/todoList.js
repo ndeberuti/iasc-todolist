@@ -19,7 +19,7 @@ class TodoList {
 
   pushTask(task) {
     // Avoid re-insert an existed task
-    const exist = this.tasks.findIndex((x) => x.equals(task)) >= 0;
+    const exist = this.tasks.find((x) => x.equals(task));
     if (!exist) {
       // Unlink Task
       task.unlinkTask();
@@ -30,6 +30,10 @@ class TodoList {
       }
       this.tasks.push(task);
     }
+  }
+
+  getTaskById(id) {
+    return this.tasks.find((x) => x.id === id);
   }
 
   getSortedTasks() {
