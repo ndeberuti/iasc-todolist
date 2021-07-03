@@ -1,8 +1,20 @@
 # README
-TODO
 
+# Levantar el server
 
-# Task
+## Clean start
+
+``` Bash
+npm run start
+```
+
+## Recovery start
+
+``` Bash
+npm run restart
+```
+> En este caso el servidor va a notificar a los clientes que se comuniquen que se cayó y necesita que se le proporcione un estado
+> Los clientes nuevos no deberían poder recuperar el estado del server
 
 ## Agregar
 ``` Javascript
@@ -78,7 +90,7 @@ GET /list/:listId
 response: 200  {"todoList": "TodoList"}
 ```
 
-## Recuperar server
+# Recuperar server
 ``` Javascript
 POST /server/restore
 body: { "serverState" : "[[\"1\",\"2\"],{\"id\":\"3\",\"owner\":\"4\",\"tasks\":\"5\",\"isPublic\":false},{\"id\":\"6\",\"owner\":\"7\",\"tasks\":\"8\",\"isPublic\":true},\"1\",\"User1\",[],\"2\",\"User2\",[]]" }
