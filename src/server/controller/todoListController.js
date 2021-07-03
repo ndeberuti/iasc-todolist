@@ -1,18 +1,15 @@
 /* eslint-disable consistent-return */
-const { createTodoListService } = require('../../services/createTodoListService');
-const { addTaskToTodoListService } = require('../../services/addTaskToTodoListService');
-const { editTaskService } = require('../../services/editTaskService');
-const { deleteTaskService } = require('../../services/deleteTaskService');
-const { deleteListService } = require('../../services/deleteListService');
-const { getListsService } = require('../../services/getListsService');
-const { getListService } = require('../../services/getListService');
+const { addTaskToTodoListService, editTaskService, deleteTaskService } = require('../../services/taskService');
+const {
+  getListService, getAllListsService, createListService, deleteListService,
+} = require('../../services/listService');
 
 // eslint-disable-next-line consistent-return
 const create = async (req, res, next) => {
   try {
     const { owner } = req.body;
 
-    const todoListId = createTodoListService(owner);
+    const todoListId = createListService(owner);
 
     return res.status(200).json({ id: todoListId });
   } catch (error) {
@@ -22,7 +19,7 @@ const create = async (req, res, next) => {
 
 const list = async (req, res, next) => {
   try {
-    const { todoListId } = req.body;
+    const todoListId = req.params.id;
 
     const todoListJSON = getListService(todoListId);
 
@@ -34,7 +31,7 @@ const list = async (req, res, next) => {
 
 const lists = async (req, res, next) => {
   try {
-    const todoListsJSON = getListsService();
+    const todoListsJSON = getAllListsService();
 
     return res.status(200).json({ todoLists: todoListsJSON });
   } catch (error) {
@@ -58,6 +55,7 @@ const edit = async (req, res, next) => {
       todoListId, taskId, value, check,
     } = req.body;
     const todoListJSON = editTaskService(todoListId, taskId, value, check);
+
     return res.status(200).json({ todoListId: todoListJSON });
   } catch (error) {
     next(error);
