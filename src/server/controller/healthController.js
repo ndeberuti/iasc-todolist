@@ -1,3 +1,4 @@
+// eslint-disable-next-line consistent-return
 const check = async (req, res, next) => {
   try {
     return res.status(200).json({ message: 'OK' });
