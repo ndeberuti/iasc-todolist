@@ -1,4 +1,4 @@
-const { restoreServerStateService } = require('../../services/restoreServerStateService');
+const { restoreServerStateService } = require('../../services/serverStateService');
 
 // eslint-disable-next-line consistent-return
 const restore = async (req, res, next) => {

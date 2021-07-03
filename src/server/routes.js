@@ -1,11 +1,13 @@
 const { check } = require('./controller/healthController');
-const { list, lists, create, push, edit, deleteTask, deleteList } = require('./controller/todoListController');
+const {
+  list, lists, create, push, edit, deleteTask, deleteList,
+} = require('./controller/todoListController');
 const { restore } = require('./controller/serverController');
 const { recoveryMiddleware } = require('./middleware/recoveryMiddleware');
 
 const bind = (app) => {
   app.get('/health', recoveryMiddleware, check);
-  app.get('/list', recoveryMiddleware, list);
+  app.get('/list/:id', recoveryMiddleware, list);
   app.get('/lists', recoveryMiddleware, lists);
   app.post('/list', recoveryMiddleware, create);
   app.delete('/list', recoveryMiddleware, deleteList);
