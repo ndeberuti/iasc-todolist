@@ -66,7 +66,6 @@ response: 200  {"todoListId": "id"}
 ## Obtener listas
 ``` Javascript
 GET /lists
-body: {}
 response: 200  {"todoLists": "[TodoLists]"}
 ```
 > Debemos devolver todo, luego desde el cliente se muestran
@@ -75,7 +74,13 @@ response: 200  {"todoLists": "[TodoLists]"}
 
 ## Obtener lista
 ``` Javascript
-GET /list
-body: {"todoListId": "id"}
+GET /list/:listId
 response: 200  {"todoList": "TodoList"}
+```
+
+## Recuperar server
+``` Javascript
+POST /server/restore
+body: { "serverState" : "[[\"1\",\"2\"],{\"id\":\"3\",\"owner\":\"4\",\"tasks\":\"5\",\"isPublic\":false},{\"id\":\"6\",\"owner\":\"7\",\"tasks\":\"8\",\"isPublic\":true},\"1\",\"User1\",[],\"2\",\"User2\",[]]" }
+response: 200  {"message": "OK"}
 ```
