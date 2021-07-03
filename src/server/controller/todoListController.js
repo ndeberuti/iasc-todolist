@@ -7,6 +7,7 @@ const { deleteListService } = require('../../services/deleteListService');
 const { getListsService } = require('../../services/getListsService');
 const { getListService } = require('../../services/getListService');
 
+// eslint-disable-next-line consistent-return
 const create = async (req, res, next) => {
   try {
     const { owner } = req.body;
