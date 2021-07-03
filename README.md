@@ -1,14 +1,16 @@
 # README
 
-# Levantar el server
+# Correr el proyecto
 
-## Clean start
+## Backend
+
+### Clean start
 
 ``` Bash
 npm run start
 ```
 
-## Recovery start
+### Recovery start
 
 ``` Bash
 npm run restart
