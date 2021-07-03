@@ -13,7 +13,7 @@ npm run start
 ``` Bash
 npm run restart
 ```
-> En este caso el servidor va a notificar a los clientes que se comuniquen que se cayó y necesita que se le proporcione un estado
+> En este caso el servidor va a notificar a los clientes que se comuniquen que se cayó y necesita que se le proporcione un estado.
 > Los clientes nuevos no deberían poder recuperar el estado del server
 
 ## Agregar
