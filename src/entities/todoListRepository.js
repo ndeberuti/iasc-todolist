@@ -1,6 +1,6 @@
 class TodoListRepository {
-  constructor(todoList = []) {
-    this.todoLists = todoList;
+  constructor(todoLists = []) {
+    this.todoLists = todoLists;
   }
 
   restoreState(state) {
