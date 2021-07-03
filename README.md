@@ -96,3 +96,4 @@ POST /server/restore
 body: { "serverState" : "[[\"1\",\"2\"],{\"id\":\"3\",\"owner\":\"4\",\"tasks\":\"5\",\"isPublic\":false},{\"id\":\"6\",\"owner\":\"7\",\"tasks\":\"8\",\"isPublic\":true},\"1\",\"User1\",[],\"2\",\"User2\",[]]" }
 response: 200  {"message": "OK"}
 ```
+> En el body hay que usar un estado stringifeado por [flatted](https://www.npmjs.com/package/flatted)
