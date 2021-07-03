@@ -16,6 +16,7 @@ class TodoListRepository {
   }
 
   showTodoLists() {
+    // eslint-disable-next-line no-console
     console.log(this.todoLists);
   }
 }
