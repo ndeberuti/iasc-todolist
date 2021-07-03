@@ -1,5 +1,6 @@
 const { createTodoListService } = require('../../services/createTodoListService');
 
+// eslint-disable-next-line consistent-return
 const create = async (req, res, next) => {
   try {
     const { owner } = req.body;

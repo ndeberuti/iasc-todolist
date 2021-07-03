@@ -3,6 +3,10 @@ class TodoListRepository {
     this.todoLists = todoList;
   }
 
+  restoreState(state) {
+    this.todoLists = state;
+  }
+
   addTodoList(todoList) {
     this.todoLists.push(todoList);
   }
