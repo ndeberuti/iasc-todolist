@@ -238,12 +238,16 @@
           }     
         }
 
-        agrega(unaTarea){
+        agregaAlFinal(unaTarea){
           var ultimaTareaDeLaLista = this.obtenerUltimaTareaDeLaLista();
           if(ultimaTareaDeLaLista!=null){
             ultimaTareaDeLaLista.idSiguienteTarea = unaTarea.id;
             unaTarea.idAnteriorTarea = ultimaTareaDeLaLista.id;
           }
+          this.tareas.push(unaTarea);
+        }
+
+        agrega(unaTarea){
           this.tareas.push(unaTarea);
         }
 
@@ -291,6 +295,45 @@
 
       function obtenerIdTareaNueva(){
         return listaTareas.tareas.length.toString();
+      }
+
+      function actualizarLista(listaActualizadaDelServer){
+        listaTareas = [];
+        listaActualizadaDelServer.tasks
+          .forEach(task => {
+            var nuevaTarea = new Tarea(task.id, task.value, task.check)
+            nuevaTarea.idAnteriorTarea = task.lastTask;
+            nuevaTarea.idSiguienteTarea = task.nextTask;
+            listaTareas.agrega(nuevaTarea);
+          });
+        lis
+      }
+
+      async function enviarRequestAgregarTarea(idListaTareas, descripcionTarea){
+        var dataAEnviar = {
+          todoListId: idListaTareas,
+          value: descripcionTarea
+        }
+        await fetch('/task', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataAEnviar)
+        })
+        .then(response => {
+          if(response.status == 200){
+            var listaActualizadaDelServer = response.json();
+            actualizarLista(listaActualizadaDerSever);
+            actualizarTareasHtml();
+          }
+          else{
+            
+          }
+        })
+        .catch( err => {
+          console.log(err);
+        });
       }
 
       function generarTareaHtml(unaTarea){
@@ -382,9 +425,11 @@
         var idTarea = obtenerIdTareaNueva();
 
         var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
-        listaTareas.agrega(tarea);
+        listaTareas.agregaAlFinal(tarea);
 
         generarTareaHtml(tarea);
+
+        enviarRequestAgregarTarea(listaTareas.id, tarea.descripcion);
 
         $("#txtNuevaTarea").val("");
       }
