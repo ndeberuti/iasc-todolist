@@ -346,6 +346,9 @@
           if (e.target === this){
             lblTarea.toggleClass("checked");
             unaTarea.estasTerminada = !unaTarea.estasTerminada;
+
+            //Request
+
             var dataAEnviar = {
               todoListId: listaTareas.id,
               taskId: unaTarea.id,
@@ -363,6 +366,13 @@
             p.remove();
             liTarea.remove();
           });
+
+          //  Request
+          var dataAEnviar = {
+            todoListId: listaTareas.id,
+            taskId: unaTarea.id
+          }
+          enviarRequestTarea('/task', 'DELETE', dataAEnviar);
         });
 
         var imgEditar = $("<i class='fas fa-pen' data-toggle='modal' data-target='#modalEditar'></i>").click(function(){
@@ -404,6 +414,9 @@
         var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
         tareaEditada.descripcion = $("#txtItem").val();
         $("#lblTarea"+idTareaEditada).text(tareaEditada.descripcion);
+
+        //Request
+
         var dataAEnviar = {
           todoListId: listaTareas.id,
           taskId: tareaEditada.id,
@@ -425,6 +438,17 @@
           var posicionVieja = parseInt($(this).attr('data-previndex'))+1;
           var tareaQueSeMueve = listaTareas.obteneTareaSegunPosicion(posicionVieja);
           listaTareas.moveA(tareaQueSeMueve, posicionADondeSeMueve);
+
+          //Request
+
+          var tareaMovida = listaTareas.obteneTareaSegunPosicion(posicionADondeSeMueve);
+          var dataAEnviar = {
+            todoListId: listaTareas.id,
+            taskId: tareaMovida.id,
+            before: tareaMovida.idAnteriorTarea,
+            after: tareaMovida.idSiguienteTarea
+          }
+          enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
         }
       });
       $( "#lstTareas" ).disableSelection();
@@ -439,11 +463,12 @@
 
         generarTareaHtml(tarea);
 
+        //Request
+
         var dataAEnviar = {
           todoListId: listaTareas.id,
           value: tarea.descripcion
         }
-
         enviarRequestTarea('/task', 'POST', dataAEnviar);
 
         $("#txtNuevaTarea").val("");
