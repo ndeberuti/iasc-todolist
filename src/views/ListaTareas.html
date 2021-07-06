@@ -198,10 +198,12 @@
           this.tareas = [];
         }
         obtenerUltimaTareaDeLaLista(){
-          return this.tareas.find(unaTarea => unaTarea.idSiguienteTarea==null);
+          if (this.tareas.length == 1) return this.tareas[0];
+          return this.tareas.find(unaTarea => unaTarea.idSiguienteTarea==null && unaTarea.idAnteriorTarea!=null);
         }
 
         obtenerPrimerTareaDeLaLista(){
+          if (this.tareas.length == 1) return this.tareas[0];
           return this.tareas.find(unaTarea => unaTarea.idAnteriorTarea==null && unaTarea.idSiguienteTarea!=null);
         }
 
@@ -235,7 +237,7 @@
             unaTarea.idSiguienteTarea = tareasOrdenadas[unaPosicion-1].id;
             tareasOrdenadas[unaPosicion-2].idSiguienteTarea = unaTarea.id;
             tareasOrdenadas[unaPosicion-1].idAnteriorTarea = unaTarea.id;
-          }     
+          }
         }
 
         agregaAlFinal(unaTarea){
@@ -324,7 +326,7 @@
             actualizarTareasHtml();
           }
           else{
-            
+
           }
         })
         .catch( err => {
@@ -402,7 +404,7 @@
         generarTareasHtml();
       }
 
-      var listaTareas; 
+      var listaTareas;
 
       $( document ).ready(function() {
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
@@ -427,7 +429,7 @@
       });
 
       $( "#lstTareas" ).sortable({
-        
+
         start: function(e, ui) {
           // creates a temporary attribute on the element with the old index
           $(this).attr('data-previndex', ui.item.index());
