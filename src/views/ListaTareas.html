@@ -309,22 +309,18 @@
         lis
       }
 
-      async function enviarRequestAgregarTarea(idListaTareas, descripcionTarea){
-        var dataAEnviar = {
-          todoListId: idListaTareas,
-          value: descripcionTarea
-        }
-        await fetch('/task', {
-          method: 'POST',
+      async function enviarRequestTarea(url, operacion, objetoAEnviar){
+        await fetch(url, {
+          method: operacion,
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(dataAEnviar)
+          body: JSON.stringify(objetoAEnviar)
         })
         .then(response => {
           if(response.status == 200){
-            var listaActualizadaDelServer = response.json();
-            actualizarLista(listaActualizadaDerSever);
+            var listaActualizada = response.json();
+            actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
           else{
@@ -350,6 +346,13 @@
           if (e.target === this){
             lblTarea.toggleClass("checked");
             unaTarea.estasTerminada = !unaTarea.estasTerminada;
+            var dataAEnviar = {
+              todoListId: listaTareas.id,
+              taskId: unaTarea.id,
+              value: unaTarea.descripcion,
+              check: unaTarea.estasTerminada
+            }
+            enviarRequestTarea('/task', 'PUT', dataAEnviar);
           }
         });
 
@@ -401,6 +404,13 @@
         var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
         tareaEditada.descripcion = $("#txtItem").val();
         $("#lblTarea"+idTareaEditada).text(tareaEditada.descripcion);
+        var dataAEnviar = {
+          todoListId: listaTareas.id,
+          taskId: tareaEditada.id,
+          value: tareaEditada.descripcion,
+          check: tareaEditada.estasTerminada
+        }
+        enviarRequestTarea('/task', 'PUT', dataAEnviar);
       });
 
       $( "#lstTareas" ).sortable({
@@ -429,7 +439,12 @@
 
         generarTareaHtml(tarea);
 
-        enviarRequestAgregarTarea(listaTareas.id, tarea.descripcion);
+        var dataAEnviar = {
+          todoListId: listaTareas.id,
+          value: tarea.descripcion
+        }
+
+        enviarRequestTarea('/task', 'POST', dataAEnviar);
 
         $("#txtNuevaTarea").val("");
       }
