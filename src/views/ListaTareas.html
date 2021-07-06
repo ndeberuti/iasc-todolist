@@ -376,36 +376,31 @@
       });
       $( "#lstTareas" ).disableSelection();
 
+      function agregarTareaNueva(){
+        var descripcionTarea = $("#txtNuevaTarea").val();
+        var estaTerminada = false;
+        var idTarea = obtenerIdTareaNueva();
+
+        var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
+        listaTareas.agrega(tarea);
+
+        generarTareaHtml(tarea);
+
+        $("#txtNuevaTarea").val("");
+      }
+
       $("#txtNuevaTarea").on("keyup",function(e){
         //13  means enter button
         if(e.keyCode == 13 && $("#txtNuevaTarea").val() != "")
         {
-          var descripcionTarea = $("#txtNuevaTarea").val();
-          var estaTerminada = false;
-          var idTarea = obtenerIdTareaNueva();
-
-          var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
-          listaTareas.agrega(tarea);
-
-          generarTareaHtml(tarea);
-
-          $("#txtNuevaTarea").val("");
+          agregarTareaNueva();
         }
       });
 
       $("#iconAñadirItem").click(function(){
         if($("#txtNuevaTarea").val() != "")
         {
-          var descripcionTarea = $("#txtNuevaTarea").val();
-          var estaTerminada = false;
-          var idTarea = obtenerIdTareaNueva();
-
-          var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
-          listaTareas.agrega(tarea);
-
-          generarTareaHtml(tarea);
-
-          $("#txtNuevaTarea").val("");
+          agregarTareaNueva();
         }
       });
 
