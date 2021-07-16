@@ -49,7 +49,7 @@ Devolvemos la lista por si en el medio tuvo actualizaciones. Con el response se 
 ## Mover tasks
 ``` Javascript
 PUT /tasks
-body: {"todoListId": "todoList", "taskToMove": "id", "before": "id", "after": "id"}
+body: {"todoListId": "todoList", "taskId": "id", "before": "id", "after": "id"}
 response: 200 {"todoList": "todoList"}
 ```
 Se envía `before` o `after` no hace falta ambos.
