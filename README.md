@@ -1,8 +1,43 @@
 # README
 
-# Correr el proyecto
 
-## Backend
+
+# Frontend
+
+## Correr el proyecto
+
+``` Bash
+npm run client
+```
+
+### Login
+
+```
+/login
+```
+
+### Inicio
+
+```
+/inicio
+```
+
+### Listas
+
+```
+/listas
+```
+
+### Lista
+```
+/lista
+```
+
+
+
+# Backend
+
+## Correr el proyecto
 
 ### Clean start
 
@@ -56,10 +91,6 @@ Se envía `before` o `after` no hace falta ambos.
 
 Devolvemos la lista por si en el medio tuvo actualizaciones. Con el response se actualiza la UI.
 
-> Diff:
-> - nextTask Id y lastTask Id de la Task a mover -> Para sacarla del lugar en donde está
-> - nextTask Id y lastTask Id de las Tasks anterior y anterior a la donde se desea mover
-
 # TodoList
 
 ## Agregar
@@ -83,7 +114,7 @@ GET /lists
 response: 200  {"todoLists": "[TodoLists]"}
 ```
 > Debemos devolver todo, luego desde el cliente se muestran
-> las listas que coicidan con el owner o sean públicas.
+> las listas que coincidan con el owner o sean públicas.
 
 
 ## Obtener lista
