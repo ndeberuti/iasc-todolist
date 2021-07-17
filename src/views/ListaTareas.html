@@ -488,9 +488,9 @@
         await fetch('/lista/'+idLista, {
           method: 'GET'
         })
-        .then(response => {
+        .then(async response => {
           if(response.status == 200){
-            var listaActualizada = response.json();
+            var listaActualizada = await response.json();
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
@@ -503,8 +503,8 @@
         });
       }
 
-      function iniciarPollingLista(idLista){
-        setInterval(enviarRequestActualizarLista(idLista), 10000);
+      function iniciarPollingLista(){
+        setInterval(enviarRequestActualizarLista, 10000, listaTareas.id);
       }
 
       var listaTareas;
@@ -512,7 +512,7 @@
       $( document ).ready(function() {
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
         $( "#nombreLista" ).text(listaTareas.nombre);
-        iniciarPollingLista(listaTareas.id);
+        iniciarPollingLista();
       });
 
     </script>
