@@ -404,13 +404,6 @@
         generarTareasHtml();
       }
 
-      var listaTareas;
-
-      $( document ).ready(function() {
-        listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
-        $( "#nombreLista" ).text(listaTareas.nombre);
-      });
-
       $("#btnGuardar").click(function(){
         var idTareaEditada = $("#lblIdTareaQueSeEstaEditando").text();
         var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
@@ -489,6 +482,37 @@
         {
           agregarTareaNueva();
         }
+      });
+
+      async function enviarRequestActualizarLista(idLista){
+        await fetch('/lista/'+idLista, {
+          method: 'GET'
+        })
+        .then(async response => {
+          if(response.status == 200){
+            var listaActualizada = await response.json();
+            actualizarLista(listaActualizada);
+            actualizarTareasHtml();
+          }
+          else{
+
+          }
+        })
+        .catch( err => {
+          console.log(err);
+        });
+      }
+
+      function iniciarPollingLista(){
+        setInterval(enviarRequestActualizarLista, 10000, listaTareas.id);
+      }
+
+      var listaTareas;
+
+      $( document ).ready(function() {
+        listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
+        $( "#nombreLista" ).text(listaTareas.nombre);
+        iniciarPollingLista();
       });
 
     </script>
