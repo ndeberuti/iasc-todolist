@@ -1,7 +1,5 @@
 # README
 
-
-
 # Frontend
 
 ## Correr el proyecto
@@ -32,7 +30,6 @@ npm run client
 ```
 /lista
 ```
-
 
 
 # Backend

@@ -16,7 +16,7 @@ const bind = (app) => {
   });
 
   app.get('/lista', (req, res) => {
-    res.sendFile('ListaTares.html', root);
+    res.sendFile('ListaTareas.html', root);
   });
 };
 
