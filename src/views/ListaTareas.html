@@ -504,7 +504,7 @@
       }
 
       function iniciarPollingLista(idLista){
-        setInterval(enviarRequestActualizarLista, 10000);
+        setInterval(enviarRequestActualizarLista(idLista), 10000);
       }
 
       var listaTareas;
