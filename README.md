@@ -1,8 +1,24 @@
 # README
 
-# Correr el proyecto
+# Frontend
 
-## Backend
+## Correr el proyecto
+
+``` Bash
+npm run client
+```
+
+## Direccionamiento
+
+- Login -> `/login`
+- Inicio ->  `/inicio`
+- Listas -> `/listas`
+- Lista -> `/lista`
+
+
+# Backend
+
+## Correr el proyecto
 
 ### Clean start
 
@@ -22,18 +38,26 @@ npm run restart
 ``` Javascript
 POST /task
 body: {"todoListId": "id", "value":""}
-response: 200  {"todoList": "todoList"}
+response: 200  {"todoList": todoList}
+response: 409 {"message": "Fue imposible agregar la task", "todoList": todolist}
 ```
 Devolvemos la lista por si en el medio tuvo actualizaciones. Con el response se actualiza la UI.
-> Siempre se agrega al final de la lista
+
+Siempre se agrega al final de la lista
+
+Frente al **`409`** mostramos el contenido del campo `message` y si `todoList: null` además debemos redirgir a **`/listas`** porque la lista ha sido borrada. 
+
 
 ## Editar
 ``` Javascript
 PUT /task
 body: {"todoListId": "id", "taskId": "id", "value": "", "check": true}
-response: 200 {"todoList": "todoList"}
+response: 200 {"todoList": todoList}
+response: 409 {"message": "Fue imposible editar la task", "todoList": todoList}
 ```
 Se actualiza la UI si tener que esperar la respuesta.
+
+Frente al **`409`** mostramos el contenido del campo `message` y si `todoList: null` además debemos redirgir a **`/listas`** porque la lista ha sido borrada.
 
 
 ## Quitar
@@ -41,9 +65,13 @@ Se actualiza la UI si tener que esperar la respuesta.
 DELETE /task
 body: {"todoListId": "id", "taskId": "id"}
 response: 200 {"todoList": "todoList"}
+response: 409 {"message": "La lista ya no existe"} 
 ```
 Devolvemos la lista por si en el medio tuvo actualizaciones. Con el response se actualiza la UI.
-> Borramos sin importar la ubicación en la que esté la task.
+
+Borramos sin importar la ubicación en la que esté la task.
+
+Si falla es porque no existe la lista y frente al **`409`** mostramos el contenido del campo `message` y además debemos redirgir a **`/listas`**
 
 
 ## Mover tasks
@@ -51,14 +79,13 @@ Devolvemos la lista por si en el medio tuvo actualizaciones. Con el response se 
 PUT /tasks
 body: {"todoListId": "todoList", "taskId": "id", "before": "id", "after": "id"}
 response: 200 {"todoList": "todoList"}
+response: 409 {"message": "Fue imposible mover la task", "todoList": todoList}
 ```
-Se envía `before` o `after` no hace falta ambos.
+Se envía `before` o `after`, no hacen falta ambos.
 
 Devolvemos la lista por si en el medio tuvo actualizaciones. Con el response se actualiza la UI.
 
-> Diff:
-> - nextTask Id y lastTask Id de la Task a mover -> Para sacarla del lugar en donde está
-> - nextTask Id y lastTask Id de las Tasks anterior y anterior a la donde se desea mover
+Frente al **`409`** mostramos el contenido del campo `message` y si `todoList: null` además debemos redirgir a **`/listas`** porque la lista ha sido borrada.
 
 # TodoList
 
@@ -83,14 +110,17 @@ GET /lists
 response: 200  {"todoLists": "[TodoLists]"}
 ```
 > Debemos devolver todo, luego desde el cliente se muestran
-> las listas que coicidan con el owner o sean públicas.
+> las listas que coincidan con el owner o sean públicas.
 
 
 ## Obtener lista
 ``` Javascript
 GET /list/:listId
 response: 200  {"todoList": "TodoList"}
+response: 409 {"message": "Fue imposible obtener la lista"}
 ```
+Frente al **`409`** mostramos el contenido del campo `message`
+
 
 # Recuperar server
 ``` Javascript
@@ -98,4 +128,4 @@ POST /server/restore
 body: { "serverState" : "[[\"1\",\"2\"],{\"id\":\"3\",\"owner\":\"4\",\"tasks\":\"5\",\"isPublic\":false},{\"id\":\"6\",\"owner\":\"7\",\"tasks\":\"8\",\"isPublic\":true},\"1\",\"User1\",[],\"2\",\"User2\",[]]" }
 response: 200  {"message": "OK"}
 ```
-> En el body hay que usar un estado stringifeado por [flatted](https://www.npmjs.com/package/flatted)
+En el body hay que usar un estado stringifeado por [flatted](https://www.npmjs.com/package/flatted)
