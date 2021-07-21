@@ -312,12 +312,14 @@
       }
 
       async function enviarRequestTarea(url, operacion, objetoAEnviar){
-        await fetch(url, {
+        await fetch(direccionServer+url, {
           method: operacion,
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(objetoAEnviar)
+          body: JSON.stringify(objetoAEnviar),
+          mode: 'no-cors',
+          cache: 'default'
         })
         .then(response => {
           var listaActualizada;
@@ -337,6 +339,7 @@
             var repuestaServer = response.json();
             actualizarTareasHtml();
             alert(repuestaServer.message);
+            enviarRequestLevantarServer();
           }
         })
         .catch( err => {
@@ -498,8 +501,10 @@
       });
 
       async function enviarRequestActualizarLista(idLista){
-        await fetch('/list/'+idLista, {
-          method: 'GET'
+        await fetch(direccionServer+'/list/'+idLista, {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'default'
         })
         .then(async response => {
           var listaActualizada;
@@ -520,6 +525,7 @@
             var repuestaServer = response.json();
             actualizarTareasHtml();
             alert(repuestaServer.message);
+            enviarRequestLevantarServer();
           }
         })
         .catch( err => {
@@ -528,13 +534,40 @@
       }
 
       async function enviarRequestListas(){
-        await fetch('/lists', {
-          method: 'GET'
+        await fetch(direccionServer+'/lists', {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'default'
         })
         .then(async response => {
           var listaActualizada;
           if(response.status == 200){
             listasDeTareas = await response.json();
+          }
+        })
+        .catch( err => {
+          console.log(err);
+        });
+      }
+
+      async function enviarRequestLevantarServer(){
+        var objetoAEnviar = {
+          serverState: listasDeTareas
+        }
+
+        await fetch(direccionServer+'/server/restore', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(objetoAEnviar),
+          mode: 'no-cors',
+          cache: 'default'
+        })
+        .then(response => {
+          if(response.status == 200){
+            var respuestaServer = response.json();
+            alert('Se reestablecio la coneccion con el servidor');
           }
         })
         .catch( err => {
@@ -556,12 +589,14 @@
 
       var listaTareas;
       var listasDeTareas;
+      var direccionServer;
 
       $( document ).ready(function() {
+        direccionServer = "http://localhost:3000";
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
         enviarRequestActualizarLista(listaTareas.id);
         iniciarPollingLista();
-        iniciarPollingListas();
+        //iniciarPollingListas();
       });
 
     </script>
