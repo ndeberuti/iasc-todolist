@@ -1,5 +1,4 @@
 {
     "shard1": "http://localhost:3000",
-    "shard2": "http://localhost:3001",
-    "shard3": "http://localhost:3002"
+    "shard2": "http://localhost:3001"
 }
