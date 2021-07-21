@@ -7,4 +7,4 @@ const proxy = httpProxy.createProxyServer({});
 http.createServer((req, res) => {
   const shardUrl = pickShard(req);
   proxy.web(req, res, { target: shardUrl });
-}).listen(3002);
+}).listen(3003);

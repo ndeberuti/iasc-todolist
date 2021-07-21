@@ -1,10 +1,6 @@
-// TODO implementar esto bien en otro modulo
-const dictionary = (key) => {
-  const objectLiteral = {
-    someKey: 'http://localhost:3000',
-  };
-  return objectLiteral[key];
-};
+const routingTable = require('./routingTable');
+const shards = require('./shards.json');
+
 const pickShard = (req) => {
   let body = '';
   let key;
@@ -17,7 +13,13 @@ const pickShard = (req) => {
     key = parsedBody.key;
   });
 
-  return dictionary[key];
+  if (routingTable.has(key)) {
+    return routingTable.get(key);
+  }
+
+  // TODO aplicar criterio de decision para que shard lo mandas
+  routingTable.set(key, shards.shard1);
+  return shards.shard1;
 };
 
 module.exports = {
