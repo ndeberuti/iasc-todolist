@@ -1,9 +1,10 @@
 const uuid = require('../lib/uuid');
 
 class TodoList {
-  constructor(owner, tasks = []) {
+  constructor(owner, name = '', tasks = []) {
     this.id = uuid();
     this.owner = owner;
+    this.name = name;
     this.tasks = tasks;
     this.isPublic = false;
   }
@@ -72,6 +73,17 @@ class TodoList {
 
       return 0;
     });
+  }
+
+  toJSON() {
+    const tasks = this.getSortedTasks().map((x) => ({ id: x.id, value: x.value, check: x.check }));
+    return {
+      id: this.id,
+      name: this.name,
+      owner: this.owner,
+      isPublic: this.isPublic,
+      tasks,
+    };
   }
 }
 
