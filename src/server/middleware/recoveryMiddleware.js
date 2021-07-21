@@ -3,7 +3,7 @@ let serverDown = false;
 // eslint-disable-next-line consistent-return
 const recoveryMiddleware = (req, res, next) => {
   if (serverDown) {
-    return res.status(205).json({ message: 'server down!!!!!' });
+    return res.status(418).json({ message: 'server down!!!!!' });
   }
   next();
 };

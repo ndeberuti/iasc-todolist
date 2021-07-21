@@ -1,12 +1,12 @@
 const express = require('express');
+const path = require('path');
 const { bind } = require('./routes');
-const { setDownState } = require('./middleware/recoveryMiddleware');
 
 const app = express();
-const port = 3000;
-app.use(express.json());
-setDownState(true);
 
 bind(app);
 
+app.use('*', express.static(path.join(__dirname, '/views'), { index: 'NotFound.html' }));
+
+const port = 5000;
 module.exports = app.listen(port);
