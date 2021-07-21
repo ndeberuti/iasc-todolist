@@ -195,6 +195,7 @@
         constructor(unId, unNombre){
           this.id = unId;
           this.nombre = unNombre;
+          this.esPublica = true;
           this.tareas = [];
         }
         obtenerUltimaTareaDeLaLista(){
@@ -300,25 +301,25 @@
       }
 
       function actualizarLista(listaActualizadaDelServer){
-        listaTareas = [];
+        listaTareas.tareas = [];
+        listaTareas.esPublica = listaActualizadaDelServer.isPublic;
         listaActualizadaDelServer.tasks
           .forEach(task => {
             var nuevaTarea = new Tarea(task.id, task.value, task.check)
-            nuevaTarea.idAnteriorTarea = task.lastTask;
-            nuevaTarea.idSiguienteTarea = task.nextTask;
-            listaTareas.agrega(nuevaTarea);
+            listaTareas.agregaAlFinal(nuevaTarea);
           });
         lis
       }
 
       function enviarRequestTarea(url, operacion, objetoAEnviar){
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('Content-Type', 'application/json');
+        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
         fetch(direccionServer+url, {
           method: operacion,
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: headersDelRequest,
           body: JSON.stringify(objetoAEnviar),
-          mode: 'no-cors',
+          mode: 'cors',
           cache: 'default'
         })
         .then(r =>  r.json().then(data => ({status: r.status, body: data})))
@@ -336,7 +337,7 @@
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
-          else if(response.status == 205){
+          else if(response.status == 418){
             var repuestaServer = response.body;
             actualizarTareasHtml();
             alert(repuestaServer.message);
@@ -371,7 +372,7 @@
               taskId: unaTarea.id,
               value: unaTarea.descripcion,
               check: nuevoEstadoTArea
-            }
+            };
             enviarRequestTarea('/task', 'PUT', dataAEnviar);
           }
         });
@@ -388,7 +389,7 @@
           var dataAEnviar = {
             todoListId: listaTareas.id,
             taskId: unaTarea.id
-          }
+          };
           enviarRequestTarea('/task', 'DELETE', dataAEnviar);
         });
 
@@ -433,7 +434,7 @@
           taskId: tareaEditada.id,
           value: descripcionTarea,
           check: tareaEditada.estasTerminada
-        }
+        };
         enviarRequestTarea('/task', 'PUT', dataAEnviar);
       });
 
@@ -458,7 +459,7 @@
             taskId: tareaMovida.id,
             before: tareaMovida.idAnteriorTarea,
             after: tareaMovida.idSiguienteTarea
-          }
+          };
           listaTareas.moveA(tareaQueSeMueve, posicionVieja);
           enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
         }
@@ -480,7 +481,7 @@
         var dataAEnviar = {
           todoListId: listaTareas.id,
           value: tarea.descripcion
-        }
+        };
         enviarRequestTarea('/task', 'POST', dataAEnviar);
 
         $("#txtNuevaTarea").val("");
@@ -502,10 +503,13 @@
       });
 
       function enviarRequestActualizarLista(idLista){
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
         fetch(direccionServer+'/list/'+idLista, {
           method: 'GET',
-          mode: 'no-cors',
-          cache: 'default'
+          mode: 'cors',
+          cache: 'default',
+          headers: headersDelRequest
         })
         .then(r =>  r.json().then(data => ({status: r.status, body: data})))
         .then( response => {
@@ -523,7 +527,7 @@
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
-          else if(response.status == 205){
+          else if(response.status == 418){
             var repuestaServer = response.body;
             actualizarTareasHtml();
             alert(repuestaServer.message);
@@ -536,10 +540,13 @@
       }
 
       function enviarRequestListas(){
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
         fetch(direccionServer+'/lists', {
           method: 'GET',
-          mode: 'no-cors',
-          cache: 'default'
+          mode: 'cors',
+          cache: 'default',
+          headers: headersDelRequest
         })
         .then(r =>  r.json().then(data => ({status: r.status, body: data})))
         .then( response => {
@@ -556,14 +563,15 @@
       function enviarRequestLevantarServer(){
         var objetoAEnviar = {
           serverState: listasDeTareas
-        }
+        };
 
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('Content-Type', 'application/json');
+        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
         fetch(direccionServer+'/server/restore', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(objetoAEnviar),
+          headers: headersDelRequest,
+          body: objetoAEnviar,
           mode: 'no-cors',
           cache: 'default'
         })
@@ -600,7 +608,7 @@
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
         enviarRequestActualizarLista(listaTareas.id);
         iniciarPollingLista();
-        //iniciarPollingListas();
+        iniciarPollingListas();
       });
 
     </script>
