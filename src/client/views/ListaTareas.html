@@ -311,22 +311,36 @@
         lis
       }
 
-      async function enviarRequestTarea(url, operacion, objetoAEnviar){
-        await fetch(url, {
+      function enviarRequestTarea(url, operacion, objetoAEnviar){
+        fetch(direccionServer+url, {
           method: operacion,
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(objetoAEnviar)
+          body: JSON.stringify(objetoAEnviar),
+          mode: 'no-cors',
+          cache: 'default'
         })
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
         .then(response => {
+          var listaActualizada;
           if(response.status == 200){
-            var listaActualizada = response.json();
+            listaActualizada = response.body;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
-          else{
-
+          else if (response.status == 409){
+            var repuestaServer = response.body;
+            listaActualizada = repuestaServer.todoList;
+            actualizarLista(listaActualizada);
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
+          }
+          else if(response.status == 205){
+            var repuestaServer = response.body;
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
+            enviarRequestLevantarServer();
           }
         })
         .catch( err => {
@@ -347,7 +361,8 @@
         divTarea.on('click', function(e) {
           if (e.target === this){
             lblTarea.toggleClass("checked");
-            unaTarea.estasTerminada = !unaTarea.estasTerminada;
+            var nuevoEstadoTArea = !unaTarea.estasTerminada;
+            //unaTarea.estasTerminada = !unaTarea.estasTerminada;
 
             //Request
 
@@ -355,14 +370,14 @@
               todoListId: listaTareas.id,
               taskId: unaTarea.id,
               value: unaTarea.descripcion,
-              check: unaTarea.estasTerminada
+              check: nuevoEstadoTArea
             }
             enviarRequestTarea('/task', 'PUT', dataAEnviar);
           }
         });
 
         var imgEliminar = $("<i class='fas fa-trash-alt'></i>").click(function(){
-          listaTareas.elimina(unaTarea);
+          //listaTareas.elimina(unaTarea);
           var p = $(this).parent();
             p.fadeOut(function(){
             p.remove();
@@ -404,17 +419,11 @@
         generarTareasHtml();
       }
 
-      var listaTareas;
-
-      $( document ).ready(function() {
-        listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
-        $( "#nombreLista" ).text(listaTareas.nombre);
-      });
-
       $("#btnGuardar").click(function(){
         var idTareaEditada = $("#lblIdTareaQueSeEstaEditando").text();
         var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
-        tareaEditada.descripcion = $("#txtItem").val();
+        var descripcionTarea = $("#txtItem").val();
+        //tareaEditada.descripcion = $("#txtItem").val();
         $("#lblTarea"+idTareaEditada).text(tareaEditada.descripcion);
 
         //Request
@@ -422,7 +431,7 @@
         var dataAEnviar = {
           todoListId: listaTareas.id,
           taskId: tareaEditada.id,
-          value: tareaEditada.descripcion,
+          value: descripcionTarea,
           check: tareaEditada.estasTerminada
         }
         enviarRequestTarea('/task', 'PUT', dataAEnviar);
@@ -450,6 +459,7 @@
             before: tareaMovida.idAnteriorTarea,
             after: tareaMovida.idSiguienteTarea
           }
+          listaTareas.moveA(tareaQueSeMueve, posicionVieja);
           enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
         }
       });
@@ -461,9 +471,9 @@
         var idTarea = obtenerIdTareaNueva();
 
         var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
-        listaTareas.agregaAlFinal(tarea);
+        //listaTareas.agregaAlFinal(tarea);
 
-        generarTareaHtml(tarea);
+        //generarTareaHtml(tarea);
 
         //Request
 
@@ -489,6 +499,108 @@
         {
           agregarTareaNueva();
         }
+      });
+
+      function enviarRequestActualizarLista(idLista){
+        fetch(direccionServer+'/list/'+idLista, {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'default'
+        })
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+        .then( response => {
+          var listaActualizada;
+          if(response.status == 200){
+            listaActualizada = response.body;
+            actualizarLista(listaActualizada);
+            actualizarTareasHtml();
+            actualizarNombreLista();
+          }
+          else if (response.status == 409){
+            var repuestaServer = response.body;
+            listaActualizada = repuestaServer.todoList;
+            actualizarLista(listaActualizada);
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
+          }
+          else if(response.status == 205){
+            var repuestaServer = response.body;
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
+            enviarRequestLevantarServer();
+          }
+        })
+        .catch( err => {
+          console.log(err);
+        });
+      }
+
+      function enviarRequestListas(){
+        fetch(direccionServer+'/lists', {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'default'
+        })
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+        .then( response => {
+          var listaActualizada;
+          if(response.status == 200){
+            listasDeTareas =  response.body;
+          }
+        })
+        .catch( err => {
+          console.log(err);
+        });
+      }
+
+      function enviarRequestLevantarServer(){
+        var objetoAEnviar = {
+          serverState: listasDeTareas
+        }
+
+        fetch(direccionServer+'/server/restore', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(objetoAEnviar),
+          mode: 'no-cors',
+          cache: 'default'
+        })
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+        .then(response => {
+          if(response.status == 200){
+            var respuestaServer = response.body;
+            alert('Se reestablecio la coneccion con el servidor');
+          }
+        })
+        .catch( err => {
+          console.log(err);
+        });
+      }
+
+      function iniciarPollingListas(){
+        setInterval(enviarRequestListas, 10000);
+      }
+
+      function iniciarPollingLista(){
+        setInterval(enviarRequestActualizarLista, 10000, listaTareas.id);
+      }
+
+      function actualizarNombreLista(){
+        $( "#nombreLista" ).text(listaTareas.nombre);
+      }
+
+      var listaTareas;
+      var listasDeTareas;
+      var direccionServer;
+
+      $( document ).ready(function() {
+        direccionServer = "http://localhost:3000";
+        listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
+        enviarRequestActualizarLista(listaTareas.id);
+        iniciarPollingLista();
+        //iniciarPollingListas();
       });
 
     </script>

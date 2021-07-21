@@ -40,8 +40,28 @@ const deleteTaskService = (todoListId, taskId) => {
   return stringify(todoList);
 };
 
+const moveTaskService = (todoListId, taskId, before, after) => {
+  const todoList = todoListRepository.getTodoListById(todoListId);
+  if (todoList) {
+    const task = todoList.getTaskById(taskId);
+    if (task) {
+      const beforeTask = todoList.getTaskById(before);
+      if (beforeTask) {
+        task.putBefore(beforeTask);
+      } else {
+        const afterTask = todoList.getTaskById(after);
+        if (afterTask) {
+          task.putAfter(afterTask);
+        }
+      }
+    }
+  }
+  return stringify(todoList);
+};
+
 module.exports = {
   addTaskToTodoListService,
   deleteTaskService,
   editTaskService,
+  moveTaskService,
 };
