@@ -107,7 +107,7 @@ response: 200  {"todoListId": "id"}
 ## Obtener listas
 ``` Javascript
 GET /lists
-response: 200  {"todoLists": [TodoLists], store: todoListJSON }
+response: 200  {"todoLists": [TodoLists], "store": todoListJSON }
 ```
 > Debemos devolver todo, luego desde el cliente se muestran
 > las listas que coincidan con el owner o sean públicas.
