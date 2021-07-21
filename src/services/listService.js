@@ -12,8 +12,11 @@ const createListService = (owner) => {
 
 const getListService = (todoListId) => {
   const todoList = todoListRepository.getTodoListById(todoListId);
-  console.log('todoList;', todoList);
-  return stringify(todoList);
+  let message = null;
+  if (!todoList) {
+    message = 'La lista ya no existe';
+  }
+  return { message, todoList: stringify(todoList) };
 };
 
 const getAllListsService = () => {

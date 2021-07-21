@@ -5,15 +5,19 @@ const todoListRepository = require('../entities/todoListRepository');
 // eslint-disable-next-line consistent-return
 const addTaskToTodoListService = (todoListId, taskValue) => {
   const todoList = todoListRepository.getTodoListById(todoListId);
+  let message = null;
   if (todoList) {
     const task = new Task(taskValue);
     todoList.pushTask(task);
-    return stringify(todoList);
+  } else {
+    message = 'La lista ya no existe';
   }
+  return { message, todoList: stringify(todoList) };
 };
 
 const editTaskService = (todoListId, taskId, value, check) => {
   const todoList = todoListRepository.getTodoListById(todoListId);
+  let message = null;
   if (todoList) {
     const task = todoList.getTaskById(taskId);
     if (task) {
@@ -23,25 +27,34 @@ const editTaskService = (todoListId, taskId, value, check) => {
       if (check != null) {
         task.check = check;
       }
+    } else {
+      message = 'La task ya no existe';
     }
-    return stringify(todoList);
+  } else {
+    message = 'La lista ya no existe';
   }
-  return [];
+  return { message, todoList: stringify(todoList) };
 };
 
 const deleteTaskService = (todoListId, taskId) => {
   const todoList = todoListRepository.getTodoListById(todoListId);
+  let message = null;
   if (todoList) {
     const task = todoList.getTaskById(taskId);
     if (task) {
       todoList.removeTask(task);
+    } else {
+      message = 'La task ya no existe';
     }
+  } else {
+    message = 'La lista ya no existe';
   }
-  return stringify(todoList);
+  return { message, todoList: stringify(todoList) };
 };
 
 const moveTaskService = (todoListId, taskId, before, after) => {
   const todoList = todoListRepository.getTodoListById(todoListId);
+  let message = null;
   if (todoList) {
     const task = todoList.getTaskById(taskId);
     if (task) {
@@ -52,11 +65,17 @@ const moveTaskService = (todoListId, taskId, before, after) => {
         const afterTask = todoList.getTaskById(after);
         if (afterTask) {
           task.putAfter(afterTask);
+        } else {
+          message = 'Hubo un error al querer mover la task';
         }
       }
+    } else {
+      message = 'La task ya no existe';
     }
+  } else {
+    message = 'La lista ya no existe';
   }
-  return stringify(todoList);
+  return { message, todoList: stringify(todoList) };
 };
 
 module.exports = {
