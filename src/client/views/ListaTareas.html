@@ -333,6 +333,11 @@
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
+          else if(response.status == 205){
+            var repuestaServer = response.json();
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
+          }
         })
         .catch( err => {
           console.log(err);
@@ -352,7 +357,8 @@
         divTarea.on('click', function(e) {
           if (e.target === this){
             lblTarea.toggleClass("checked");
-            unaTarea.estasTerminada = !unaTarea.estasTerminada;
+            var nuevoEstadoTArea = !unaTarea.estasTerminada;
+            //unaTarea.estasTerminada = !unaTarea.estasTerminada;
 
             //Request
 
@@ -360,14 +366,14 @@
               todoListId: listaTareas.id,
               taskId: unaTarea.id,
               value: unaTarea.descripcion,
-              check: unaTarea.estasTerminada
+              check: nuevoEstadoTArea
             }
             enviarRequestTarea('/task', 'PUT', dataAEnviar);
           }
         });
 
         var imgEliminar = $("<i class='fas fa-trash-alt'></i>").click(function(){
-          listaTareas.elimina(unaTarea);
+          //listaTareas.elimina(unaTarea);
           var p = $(this).parent();
             p.fadeOut(function(){
             p.remove();
@@ -412,7 +418,8 @@
       $("#btnGuardar").click(function(){
         var idTareaEditada = $("#lblIdTareaQueSeEstaEditando").text();
         var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
-        tareaEditada.descripcion = $("#txtItem").val();
+        var descripcionTarea = $("#txtItem").val();
+        //tareaEditada.descripcion = $("#txtItem").val();
         $("#lblTarea"+idTareaEditada).text(tareaEditada.descripcion);
 
         //Request
@@ -420,7 +427,7 @@
         var dataAEnviar = {
           todoListId: listaTareas.id,
           taskId: tareaEditada.id,
-          value: tareaEditada.descripcion,
+          value: descripcionTarea,
           check: tareaEditada.estasTerminada
         }
         enviarRequestTarea('/task', 'PUT', dataAEnviar);
@@ -448,6 +455,7 @@
             before: tareaMovida.idAnteriorTarea,
             after: tareaMovida.idSiguienteTarea
           }
+          listaTareas.moveA(tareaQueSeMueve, posicionVieja);
           enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
         }
       });
@@ -459,9 +467,9 @@
         var idTarea = obtenerIdTareaNueva();
 
         var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
-        listaTareas.agregaAlFinal(tarea);
+        //listaTareas.agregaAlFinal(tarea);
 
-        generarTareaHtml(tarea);
+        //generarTareaHtml(tarea);
 
         //Request
 
@@ -499,11 +507,17 @@
             listaActualizada = await response.json();
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
+            actualizarNombreLista();
           }
           else if (response.status == 409){
             var repuestaServer = await response.json();
             listaActualizada = repuestaServer.todoList;
             actualizarLista(listaActualizada);
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
+          }
+          else if(response.status == 205){
+            var repuestaServer = response.json();
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
@@ -517,11 +531,15 @@
         setInterval(enviarRequestActualizarLista, 10000, listaTareas.id);
       }
 
+      function actualizarNombreLista(){
+        $( "#nombreLista" ).text(listaTareas.nombre);
+      }
+
       var listaTareas;
 
       $( document ).ready(function() {
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
-        $( "#nombreLista" ).text(listaTareas.nombre);
+        enviarRequestActualizarLista(idLista);
         iniciarPollingLista();
       });
 
