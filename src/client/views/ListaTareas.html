@@ -320,13 +320,18 @@
           body: JSON.stringify(objetoAEnviar)
         })
         .then(response => {
+          var listaActualizada;
           if(response.status == 200){
-            var listaActualizada = response.json();
+            listaActualizada = response.json();
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
-          else{
-
+          else if (response.status == 409){
+            var repuestaServer = response.json();
+            listaActualizada = repuestaServer.todoList;
+            actualizarLista(listaActualizada);
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
           }
         })
         .catch( err => {
@@ -485,17 +490,22 @@
       });
 
       async function enviarRequestActualizarLista(idLista){
-        await fetch('/lista/'+idLista, {
+        await fetch('/list/'+idLista, {
           method: 'GET'
         })
         .then(async response => {
+          var listaActualizada;
           if(response.status == 200){
-            var listaActualizada = await response.json();
+            listaActualizada = await response.json();
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
-          else{
-
+          else if (response.status == 409){
+            var repuestaServer = await response.json();
+            listaActualizada = repuestaServer.todoList;
+            actualizarLista(listaActualizada);
+            actualizarTareasHtml();
+            alert(repuestaServer.message);
           }
         })
         .catch( err => {
