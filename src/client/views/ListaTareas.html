@@ -311,8 +311,8 @@
         lis
       }
 
-      async function enviarRequestTarea(url, operacion, objetoAEnviar){
-        await fetch(direccionServer+url, {
+      function enviarRequestTarea(url, operacion, objetoAEnviar){
+        fetch(direccionServer+url, {
           method: operacion,
           headers: {
             'Content-Type': 'application/json'
@@ -321,22 +321,23 @@
           mode: 'no-cors',
           cache: 'default'
         })
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
         .then(response => {
           var listaActualizada;
           if(response.status == 200){
-            listaActualizada = response.json();
+            listaActualizada = response.body;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
           else if (response.status == 409){
-            var repuestaServer = response.json();
+            var repuestaServer = response.body;
             listaActualizada = repuestaServer.todoList;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
           else if(response.status == 205){
-            var repuestaServer = response.json();
+            var repuestaServer = response.body;
             actualizarTareasHtml();
             alert(repuestaServer.message);
             enviarRequestLevantarServer();
@@ -500,29 +501,30 @@
         }
       });
 
-      async function enviarRequestActualizarLista(idLista){
-        await fetch(direccionServer+'/list/'+idLista, {
+      function enviarRequestActualizarLista(idLista){
+        fetch(direccionServer+'/list/'+idLista, {
           method: 'GET',
           mode: 'no-cors',
           cache: 'default'
         })
-        .then(async response => {
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+        .then( response => {
           var listaActualizada;
           if(response.status == 200){
-            listaActualizada = await response.json();
+            listaActualizada = response.body;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
             actualizarNombreLista();
           }
           else if (response.status == 409){
-            var repuestaServer = await response.json();
+            var repuestaServer = response.body;
             listaActualizada = repuestaServer.todoList;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
           else if(response.status == 205){
-            var repuestaServer = response.json();
+            var repuestaServer = response.body;
             actualizarTareasHtml();
             alert(repuestaServer.message);
             enviarRequestLevantarServer();
@@ -533,16 +535,17 @@
         });
       }
 
-      async function enviarRequestListas(){
-        await fetch(direccionServer+'/lists', {
+      function enviarRequestListas(){
+        fetch(direccionServer+'/lists', {
           method: 'GET',
           mode: 'no-cors',
           cache: 'default'
         })
-        .then(async response => {
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+        .then( response => {
           var listaActualizada;
           if(response.status == 200){
-            listasDeTareas = await response.json();
+            listasDeTareas =  response.body;
           }
         })
         .catch( err => {
@@ -550,12 +553,12 @@
         });
       }
 
-      async function enviarRequestLevantarServer(){
+      function enviarRequestLevantarServer(){
         var objetoAEnviar = {
           serverState: listasDeTareas
         }
 
-        await fetch(direccionServer+'/server/restore', {
+        fetch(direccionServer+'/server/restore', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -564,9 +567,10 @@
           mode: 'no-cors',
           cache: 'default'
         })
+        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
         .then(response => {
           if(response.status == 200){
-            var respuestaServer = response.json();
+            var respuestaServer = response.body;
             alert('Se reestablecio la coneccion con el servidor');
           }
         })
