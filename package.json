@@ -4,8 +4,11 @@
   "description": "",
   "main": "src/server/server/app.js",
   "scripts": {
-    "start": "node src/server/app.js",
-    "restart": "node src/server/failoverApp.js",
+    "start-public": "node src/server/publicApp/publicApp.js",
+    "restart-public": "node src/server/publicApp/failoverPublicApp.js",
+    "start-private": "node src/server/privateApp/privateApp.js",
+    "restart-private": "node src/server/privateApp/privateFailoverApp.js",
+    "load-balancer": "node loadBalancer/server/app.js",
     "client": "node src/client/app-client.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,8 +23,10 @@
   },
   "homepage": "https://github.com/ndeberuti/iasc-todolist#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "flatted": "^3.2.0",
+    "http-proxy": "^1.18.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
