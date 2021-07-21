@@ -8,9 +8,9 @@ const {
 
 const create = async (req, res, next) => {
   try {
-    const { owner } = req.body;
+    const { owner, name } = req.body;
 
-    const todoListId = createListService(owner);
+    const todoListId = createListService(owner, name);
 
     return res.status(200).json({ id: todoListId });
   } catch (error) {
@@ -32,9 +32,9 @@ const list = async (req, res, next) => {
 
 const lists = async (req, res, next) => {
   try {
-    const todoListsJSON = getAllListsService();
+    const { todoLists, store } = getAllListsService();
 
-    return res.status(200).json({ todoLists: todoListsJSON });
+    return res.status(200).json({ todoLists, store });
   } catch (error) {
     next(error);
   }

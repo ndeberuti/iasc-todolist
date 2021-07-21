@@ -12,7 +12,7 @@ const addTaskToTodoListService = (todoListId, taskValue) => {
   } else {
     message = 'La lista ya no existe';
   }
-  return { message, todoList: stringify(todoList) };
+  return { message, todoList: (todoList ? todoList.toJSON() : null) };
 };
 
 const editTaskService = (todoListId, taskId, value, check) => {
@@ -33,7 +33,7 @@ const editTaskService = (todoListId, taskId, value, check) => {
   } else {
     message = 'La lista ya no existe';
   }
-  return { message, todoList: stringify(todoList) };
+  return { message, todoList: (todoList ? todoList.toJSON() : null) };
 };
 
 const deleteTaskService = (todoListId, taskId) => {
@@ -49,7 +49,7 @@ const deleteTaskService = (todoListId, taskId) => {
   } else {
     message = 'La lista ya no existe';
   }
-  return { message, todoList: stringify(todoList) };
+  return { message, todoList: (todoList ? todoList.toJSON() : null) };
 };
 
 const moveTaskService = (todoListId, taskId, before, after) => {
@@ -75,7 +75,7 @@ const moveTaskService = (todoListId, taskId, before, after) => {
   } else {
     message = 'La lista ya no existe';
   }
-  return { message, todoList: stringify(todoList) };
+  return { message, todoList: (todoList ? todoList.toJSON() : null) };
 };
 
 module.exports = {

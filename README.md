@@ -92,7 +92,7 @@ Frente al **`409`** mostramos el contenido del campo `message` y si `todoList: n
 ## Agregar
 ``` Javascript
 POST /list
-body: {"owner": "id"}
+body: {"owner": "id", "name": "Super"}
 response: 200  {"todoListId": "id"}
 ```
 
