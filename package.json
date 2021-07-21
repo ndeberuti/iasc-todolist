@@ -4,9 +4,11 @@
   "description": "",
   "main": "src/server/server/app.js",
   "scripts": {
-    "start": "node src/server/app.js",
+    "start-public": "node src/server/publicApp/publicApp.js",
+    "restart-public": "node src/server/publicApp/failoverPublicApp.js",
+    "start-private": "node src/server/privateApp/privateApp.js",
+    "restart-private": "node src/server/privateApp/privateFailoverApp.js",
     "load-balancer": "node loadBalancer/server/app.js",
-    "restart": "node src/server/failoverApp.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
