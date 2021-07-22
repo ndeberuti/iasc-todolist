@@ -293,7 +293,7 @@
       }
 
       function obtenerIdLista(){
-        return 1;
+        return "e5f48db1cbb94b9e94ca500898421924";
       }
 
       function obtenerIdTareaNueva(){
@@ -308,7 +308,6 @@
             var nuevaTarea = new Tarea(task.id, task.value, task.check)
             listaTareas.agregaAlFinal(nuevaTarea);
           });
-        lis
       }
 
       function enviarRequestTarea(url, operacion, objetoAEnviar){
@@ -325,8 +324,11 @@
         .then(r =>  r.json().then(data => ({status: r.status, body: data})))
         .then(response => {
           var listaActualizada;
+          console.log(response.status);
+          console.log(response.body);
           if(response.status == 200){
-            listaActualizada = response.body;
+
+            listaActualizada = response.body.todoList;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
@@ -461,6 +463,8 @@
             after: tareaMovida.idSiguienteTarea
           };
           listaTareas.moveA(tareaQueSeMueve, posicionVieja);
+          console.log(listaTareas.tareas);
+          console.log(dataAEnviar);
           enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
         }
       });
@@ -515,7 +519,7 @@
         .then( response => {
           var listaActualizada;
           if(response.status == 200){
-            listaActualizada = response.body;
+            listaActualizada = response.body.todoList;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
             actualizarNombreLista();
@@ -552,7 +556,7 @@
         .then( response => {
           var listaActualizada;
           if(response.status == 200){
-            listasDeTareas =  response.body;
+            listasDeTareas =  response.body.store;
           }
         })
         .catch( err => {
@@ -572,7 +576,7 @@
           method: 'POST',
           headers: headersDelRequest,
           body: objetoAEnviar,
-          mode: 'no-cors',
+          mode: 'cors',
           cache: 'default'
         })
         .then(r =>  r.json().then(data => ({status: r.status, body: data})))
