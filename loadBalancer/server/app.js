@@ -4,7 +4,16 @@ const { pickShard } = require('./balance');
 
 const proxy = httpProxy.createProxyServer({});
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   const shardUrl = pickShard(req);
   proxy.web(req, res, { target: shardUrl });
-}).listen(3003);
+});
+
+proxy.on('error', (err, req, res) => {
+  res.writeHead(500, {
+    'Content-Type': 'text/plain',
+  });
+
+  res.end('Something went wrong. And we are reporting a custom error message.');
+});
+server.listen(3003);
