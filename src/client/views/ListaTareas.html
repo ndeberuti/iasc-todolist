@@ -110,21 +110,19 @@
   <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/listas">TreII0</a>
+    <a class="navbar-brand" href="./Listas.html">TreII0</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse  navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/listas">Listas</a>
+          <a class="nav-link" href="./Listas.html">Listas</a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <form action="/logout" method="post" id="logout" style="margin:0 auto;">
-           <a href="#" class="nav-link" id="logoutBtn">Cerrar Sesion</a>
-          </form>
+           <a href="./Inicio.html" class="nav-link" id="logoutBtn" onclick="logout()">Cerrar Sesion</a>
         </li>
       </ul>
     </div>
@@ -294,11 +292,19 @@
       }
 
       function obtenerIdLista(){
-        return "e5f48db1cbb94b9e94ca500898421924";
+        return localStorage.getItem("idLista");
+      }
+
+      function laListaEsPublica(){
+        return localStorage.getItem("esPublica");
       }
 
       function obtenerIdTareaNueva(){
         return listaTareas.tareas.length.toString();
+      }
+
+      function logout(){
+        localStorage.removeItem("user");
       }
 
       function actualizarLista(listaActualizadaDelServer){
@@ -631,6 +637,7 @@
         seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
         direccionServer = "http://localhost:3000";
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
+        listaTareas.esPublica = laListaEsPublica();
         enviarRequestActualizarLista(listaTareas.id);
         iniciarPollingLista();
         iniciarPollingListas();
