@@ -5,9 +5,9 @@
   "main": "src/server/server/app.js",
   "scripts": {
     "start-public": "node src/server/publicApp/publicApp.js",
-    "restart-public": "node src/server/publicApp/failoverPublicApp.js",
+    "restart-public": "node src/server/publicApp/recoveryPublicApp.js",
     "start-private": "node src/server/privateApp/privateApp.js",
-    "restart-private": "node src/server/privateApp/privateFailoverApp.js",
+    "restart-private": "node src/server/privateApp/recoveryFailoverApp.js",
     "load-balancer": "node loadBalancer/server/app.js",
     "client": "node src/client/app-client.js",
     "test": "echo \"Error: no test specified\" && exit 1"
