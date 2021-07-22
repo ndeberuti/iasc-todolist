@@ -20,16 +20,41 @@ npm run client
 
 ## Correr el proyecto
 
-### Clean start
+
+### LoadBalancer start
+``` Bash
+npm run load-balancer
+```
+
+### Public Lists Shard clean start
 
 ``` Bash
-npm run start
+npm run start-public
+```
+
+### Public Lists Shard recovery start
+
+``` Bash
+npm run restart-public
+```
+
+### Private Lists Shard clean start
+
+``` Bash
+npm run start-private
+```
+
+### Private Lists Shard recovery start
+
+``` Bash
+npm run restart-private
 ```
 
 ### Recovery start
 
 ``` Bash
-npm run restart
+npm run start-private
+npm run restart-private
 ```
 > En este caso el servidor va a notificar a los clientes que se comuniquen que se cayó y necesita que se le proporcione un estado.
 > Los clientes nuevos no deberían poder recuperar el estado del server
