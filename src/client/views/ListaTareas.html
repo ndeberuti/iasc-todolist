@@ -310,6 +310,7 @@
       function actualizarLista(listaActualizadaDelServer){
         listaTareas.tareas = [];
         listaTareas.duenio = listaActualizadaDelServer.owner;
+        listaTareas.nombre = listaActualizadaDelServer.name;
         listaTareas.esPublica = listaActualizadaDelServer.isPublic;
         listaActualizadaDelServer.tasks
           .forEach(task => {
@@ -476,8 +477,8 @@
           var dataAEnviar = {
             todoListId: listaTareas.id,
             taskId: tareaMovida.id,
-            before: tareaMovida.idAnteriorTarea,
-            after: tareaMovida.idSiguienteTarea
+            before: tareaMovida.idSiguienteTarea,
+            after: tareaMovida.idAnteriorTarea
           };
           listaTareas.moveA(tareaQueSeMueve, posicionVieja);
           console.log(listaTareas.tareas);
@@ -635,7 +636,7 @@
       $( document ).ready(function() {
         seEstaMoviendoUnaTarea = false;
         seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
-        direccionServer = "http://localhost:3000";
+        direccionServer = "http://localhost:3001";
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
         listaTareas.esPublica = laListaEsPublica();
         enviarRequestActualizarLista(listaTareas.id);
