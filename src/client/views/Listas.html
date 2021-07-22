@@ -84,12 +84,12 @@
         <h1>Mis Listas To Do</h1>
       </div>
       <div class="col-sm-6" style="display: inline-block;padding: 0;text-align:right;float:right;padding-top: 10px;">
-        <form method="post" action="/lista">
+
           <div class="col-sm-7" style="display: inline-block;">
-            <input type="text" name="nombre" class="form-control" placeholder="Nombre" />
+            <input type="text" name="txtNombre" id="txtNombre" class="form-control" placeholder="Nombre" />
           </div>
           <div class="col-sm-2" style="display: inline-block;">
-            <button type="submit" class="btn btn-sm btn-primary" style="height: 37px;margin-top: -5px;">Agregar</button>
+            <button type="submit" class="btn btn-sm btn-primary" onClick="crearLista()" style="height: 37px;margin-top: -5px;">Agregar</button>
           </div>
           <div style="display: inline-block; ">
             <select class="form-control" id="selectScope" onChange="actualizarScope(this)">
@@ -97,7 +97,7 @@
               <option value="privado">Privado</option>
             </select>
           </div>
-        </form>
+
       </div>
     </div>
 
@@ -147,6 +147,38 @@
         this.tareas = [];
       }
     }
+
+      function enviarRequestCrearLista(dataAEnviar){
+        var estaEnModoPublico = localStorage.getItem("esPublico");
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('Content-Type', 'application/json');
+        headersDelRequest.append('isPublicMode', estaEnModoPublico);
+        fetch('http://localhost:3003/list', {
+          method: 'POST',
+          headers: headersDelRequest,
+          body: JSON.stringify(dataAEnviar),
+          cache: 'default'
+        })
+        .then(response => response.json().then(data => ({status: response.status, todoListId: data.id})))
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+          if(response.status == 200){
+            localStorage.setItem("idLista", response.todoListId);
+            window.location.replace("./ListaTareas.html");
+          }
+        });
+      }
+
+      function crearLista(){
+        var nombreLista = $("#txtNombre").val();
+        if(nombreLista != ""){
+          var dataAEnviar = {
+            owner: localStorage.getItem("user"),
+            name: nombreLista
+          };
+          enviarRequestCrearLista(dataAEnviar);
+        }
+      }
 
     function eliminarHtmlListas() {
       $("#containerListas").empty();
