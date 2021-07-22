@@ -100,8 +100,18 @@
     <script type="text/javascript">
       
       //Por ahora hardcodeo listas, pero las deberia objener del server
-      function obtenerListasTareas(){
-        return [new ListaTareas(1, "Lista1"), new ListaTareas(2, "Lista2")];
+      function obtenerListasTareas() {
+        fetch('http://localhost:3000/lists', {
+          method: 'GET',
+          headers: {'IsPublicMode': 'true'},
+          cache: 'default'
+        })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+          generarHtmlListas(response.todoLists);
+          store = response.store;
+        });
       }
       class ListaTareas{
         constructor(unId, unNombre){
@@ -112,32 +122,30 @@
       }
       
 
-      function generarHtmlListas(unaListaDeListasTareas){
-
-        unaListaDeListasTareas.forEach(unaListaTareas => {
-
-          var linkLista = $("<a></a>");
-          linkLista.attr("href", "/lista/"+unaListaTareas.id);
-          var divCardLista = $("<div class='card bg-light mb-3'></div>");
-          var divBodyCard = $("<div class='card-body'></div>");
-          var contenidoCardLista = $("<h5 class='card-title'></h5>");
-          contenidoCardLista.text(unaListaTareas.nombre);
-
-          divBodyCard.append(contenidoCardLista);
-          divCardLista.append(divBodyCard);
-          linkLista.append(divCardLista);
-          $("#containerListas").append(linkLista);
-
-        });
-
-      }
+      function generarHtmlListas(unaListaDeListasTareas) {
+        var user = localStorage.getItem('user');
+          unaListaDeListasTareas.forEach(unaListaTareas => {
+            if (unaListaTareas.owner == user) {
+              var linkLista = $("<a></a>");
+              linkLista.attr("href", "/lista/" + unaListaTareas.id);
+              var divCardLista = $("<div class='card bg-light mb-3'></div>");
+              var divBodyCard = $("<div class='card-body'></div>");
+              var contenidoCardLista = $("<h5 class='card-title'></h5>");
+              contenidoCardLista.text(unaListaTareas.nombre);
+              divBodyCard.append(contenidoCardLista);
+              divCardLista.append(divBodyCard);
+              linkLista.append(divCardLista);
+              $("#containerListas").append(linkLista);
+            }
+          });
+        }
 
       var listasTareas;
+      var store;
 
     $( document ).ready(function() {
         listasTareas = [];
-        listasTareas = obtenerListasTareas();
-        generarHtmlListas(listasTareas);
+        obtenerListasTareas();
     });
 
     </script>
