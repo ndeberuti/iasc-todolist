@@ -81,6 +81,12 @@
           <div class="col-sm-2" style="display: inline-block;">
           <button type="submit" class="btn btn-sm btn-primary" style="height: 37px;margin-top: -5px;">Agregar</button>
           </div>
+          <div style="display: inline-block; ">
+            <select class="form-control" id="selectScope" onChange="actualizarScope(this)">
+              <option value="publico">Publico</option>
+              <option value="privado">Privado</option>
+            </select>
+          </div>
         </form>
         </div>
       </div>
@@ -100,16 +106,17 @@
     <script type="text/javascript">
       
       //Por ahora hardcodeo listas, pero las deberia objener del server
-      function obtenerListasTareas() {
-        fetch('http://localhost:3000/lists', {
+      function obtenerListasTareas(estaEnModoPublico) {
+        fetch('http://localhost:3003/lists', {
           method: 'GET',
-          headers: {'IsPublicMode': 'true'},
+          headers: {'IsPublicMode': estaEnModoPublico},
           cache: 'default'
         })
         .then(response => response.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
-          generarHtmlListas(response.todoLists);
+          eliminarHtmlListas();
+          generarHtmlListas(response.todoLists, estaEnModoPublico);
           store = response.store;
         });
       }
@@ -121,31 +128,53 @@
         }
       }
       
+      function eliminarHtmlListas(){
+        $("#containerListas").empty();
+      }
 
-      function generarHtmlListas(unaListaDeListasTareas) {
-        var user = localStorage.getItem('user');
-          unaListaDeListasTareas.forEach(unaListaTareas => {
-            if (unaListaTareas.owner == user) {
-              var linkLista = $("<a></a>");
-              linkLista.attr("href", "/lista/" + unaListaTareas.id);
-              var divCardLista = $("<div class='card bg-light mb-3'></div>");
-              var divBodyCard = $("<div class='card-body'></div>");
-              var contenidoCardLista = $("<h5 class='card-title'></h5>");
-              contenidoCardLista.text(unaListaTareas.nombre);
-              divBodyCard.append(contenidoCardLista);
-              divCardLista.append(divBodyCard);
-              linkLista.append(divCardLista);
-              $("#containerListas").append(linkLista);
-            }
-          });
+      function generarHtmlLista(unaListaDeTareas){
+          var linkLista = $("<a></a>");
+          linkLista.attr("href", "/lista/" + unaListaDeTareas.id);
+          var divCardLista = $("<div class='card bg-light mb-3'></div>");
+          var divBodyCard = $("<div class='card-body'></div>");
+          var contenidoCardLista = $("<h5 class='card-title'></h5>");
+          contenidoCardLista.text(unaListaDeTareas.name);
+          divBodyCard.append(contenidoCardLista);
+          divCardLista.append(divBodyCard);
+          linkLista.append(divCardLista);
+          $("#containerListas").append(linkLista);
+      }
+
+      function generarHtmlListas(unasListasDeTareas, estaEnModoPublico) {
+        var user = "2";//localStorage.getItem('user');
+        if(estaEnModoPublico == "true"){
+          unasListasDeTareas.filter(unaListaDeTareas => unaListaDeTareas.isPublic)
+            .forEach(unaListaDeTareas => generarHtmlLista(unaListaDeTareas));
         }
+        else{
+          unasListasDeTareas.filter(unaListaDeTareas => !unaListaDeTareas.isPublic && unaListaDeTareas.owner == user)
+            .forEach(unaListaDeTareas => generarHtmlLista(unaListaDeTareas));
+        }
+      }
+
+      function actualizarScope(select){
+        console.log(select.value);
+        if(select.value == "publico"){
+          localStorage.setItem("esPublico", true);
+        }
+        else{
+          localStorage.setItem("esPublico", false);
+        }
+        obtenerListasTareas(localStorage.getItem("esPublico"));
+      }
 
       var listasTareas;
       var store;
 
     $( document ).ready(function() {
+        localStorage.setItem("esPublico", true);
         listasTareas = [];
-        obtenerListasTareas();
+        obtenerListasTareas(localStorage.getItem("esPublico"));
     });
 
     </script>
