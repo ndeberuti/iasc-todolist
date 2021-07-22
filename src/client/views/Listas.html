@@ -85,18 +85,19 @@
       </div>
       <div class="col-sm-6" style="display: inline-block;padding: 0;text-align:right;float:right;padding-top: 10px;">
 
-          <div class="col-sm-7" style="display: inline-block;">
-            <input type="text" name="txtNombre" id="txtNombre" class="form-control" placeholder="Nombre" />
-          </div>
-          <div class="col-sm-2" style="display: inline-block;">
-            <button type="submit" class="btn btn-sm btn-primary" onClick="crearLista()" style="height: 37px;margin-top: -5px;">Agregar</button>
-          </div>
-          <div style="display: inline-block; ">
-            <select class="form-control" id="selectScope" onChange="actualizarScope(this)">
-              <option value="publico">Publico</option>
-              <option value="privado">Privado</option>
-            </select>
-          </div>
+        <div class="col-sm-7" style="display: inline-block;">
+          <input type="text" name="txtNombre" id="txtNombre" class="form-control" placeholder="Nombre" />
+        </div>
+        <div class="col-sm-2" style="display: inline-block;">
+          <button type="submit" class="btn btn-sm btn-primary" onClick="crearLista()"
+            style="height: 37px;margin-top: -5px;">Agregar</button>
+        </div>
+        <div style="display: inline-block; ">
+          <select class="form-control" id="selectScope" onChange="actualizarScope(this)">
+            <option value="publico">Publico</option>
+            <option value="privado">Privado</option>
+          </select>
+        </div>
 
       </div>
     </div>
@@ -148,37 +149,37 @@
       }
     }
 
-      function enviarRequestCrearLista(dataAEnviar){
-        var estaEnModoPublico = localStorage.getItem("esPublico");
-        var headersDelRequest = new Headers();
-        headersDelRequest.append('Content-Type', 'application/json');
-        headersDelRequest.append('isPublicMode', estaEnModoPublico);
-        fetch('http://localhost:3003/list', {
-          method: 'POST',
-          headers: headersDelRequest,
-          body: JSON.stringify(dataAEnviar),
-          cache: 'default'
-        })
-        .then(response => response.json().then(data => ({status: response.status, todoListId: data.id})))
+    function enviarRequestCrearLista(dataAEnviar) {
+      var estaEnModoPublico = localStorage.getItem("esPublico");
+      var headersDelRequest = new Headers();
+      headersDelRequest.append('Content-Type', 'application/json');
+      headersDelRequest.append('isPublicMode', estaEnModoPublico);
+      fetch('http://localhost:3003/list', {
+        method: 'POST',
+        headers: headersDelRequest,
+        body: JSON.stringify(dataAEnviar),
+        cache: 'default'
+      })
+        .then(response => response.json().then(data => ({ status: response.status, todoListId: data.id })))
         .catch(error => console.error('Error:', error))
         .then(response => {
-          if(response.status == 200){
+          if (response.status == 200) {
             localStorage.setItem("idLista", response.todoListId);
-            window.location.replace("./ListaTareas.html");
+            window.location.replace("./lista");
           }
         });
-      }
+    }
 
-      function crearLista(){
-        var nombreLista = $("#txtNombre").val();
-        if(nombreLista != ""){
-          var dataAEnviar = {
-            owner: localStorage.getItem("user"),
-            name: nombreLista
-          };
-          enviarRequestCrearLista(dataAEnviar);
-        }
+    function crearLista() {
+      var nombreLista = $("#txtNombre").val();
+      if (nombreLista != "") {
+        var dataAEnviar = {
+          owner: localStorage.getItem("user"),
+          name: nombreLista
+        };
+        enviarRequestCrearLista(dataAEnviar);
       }
+    }
 
     function eliminarHtmlListas() {
       $("#containerListas").empty();
@@ -205,11 +206,10 @@
     function generarHtmlListas(unasListasDeTareas, estaEnModoPublico) {
       var user = localStorage.getItem('user');
       if (estaEnModoPublico == "true") {
-        unasListasDeTareas.filter(unaListaDeTareas => unaListaDeTareas.isPublic)
-          .forEach(unaListaDeTareas => generarHtmlLista(unaListaDeTareas));
+        unasListasDeTareas.forEach(unaListaDeTareas => generarHtmlLista(unaListaDeTareas));
       }
       else {
-        unasListasDeTareas.filter(unaListaDeTareas => !unaListaDeTareas.isPublic && unaListaDeTareas.owner == user)
+        unasListasDeTareas.filter(unaListaDeTareas => unaListaDeTareas.owner == user)
           .forEach(unaListaDeTareas => generarHtmlLista(unaListaDeTareas));
       }
     }

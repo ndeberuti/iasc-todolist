@@ -327,7 +327,7 @@
     function enviarRequestTarea(url, operacion, objetoAEnviar) {
       var headersDelRequest = new Headers();
       headersDelRequest.append('Content-Type', 'application/json');
-      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      headersDelRequest.append('isPublicMode', laListaEsPublica());
       fetch(direccionServer + url, {
         method: operacion,
         headers: headersDelRequest,
@@ -529,7 +529,7 @@
 
     function enviarRequestActualizarLista(idLista) {
       var headersDelRequest = new Headers();
-      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      headersDelRequest.append('isPublicMode', laListaEsPublica());
       fetch(direccionServer + '/list/' + idLista, {
         method: 'GET',
         mode: 'cors',
@@ -572,7 +572,7 @@
 
     function enviarRequestListas() {
       var headersDelRequest = new Headers();
-      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      headersDelRequest.append('isPublicMode', laListaEsPublica());
       fetch(direccionServer + '/lists', {
         method: 'GET',
         mode: 'cors',
@@ -598,7 +598,7 @@
 
       var headersDelRequest = new Headers();
       headersDelRequest.append('Content-Type', 'application/json');
-      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      headersDelRequest.append('isPublicMode', laListaEsPublica());
       fetch(direccionServer + '/server/restore', {
         method: 'POST',
         headers: headersDelRequest,
