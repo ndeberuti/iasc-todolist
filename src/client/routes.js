@@ -7,6 +7,10 @@ const bind = (app) => {
     res.sendFile('Login.html', root);
   });
 
+  app.get('/', (req, res) => {
+    res.sendFile('Inicio.html', root);
+  });
+
   app.get('/inicio', (req, res) => {
     res.sendFile('Inicio.html', root);
   });
