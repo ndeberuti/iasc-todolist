@@ -106,18 +106,24 @@
     <script type="text/javascript">
       
       //Por ahora hardcodeo listas, pero las deberia objener del server
-      function obtenerListasTareas(estaEnModoPublico) {
+      function obtenerListasTareas() {
+        var estaEnModoPublico = localStorage.getItem("esPublico");
         fetch('http://localhost:3003/lists', {
           method: 'GET',
           headers: {'IsPublicMode': estaEnModoPublico},
           cache: 'default'
         })
-        .then(response => response.json())
+        .then(response => response.json().then(data => ({status: response.status, todoLists: data.todoLists, store: data.store})))
         .catch(error => console.error('Error:', error))
         .then(response => {
-          eliminarHtmlListas();
-          generarHtmlListas(response.todoLists, estaEnModoPublico);
-          store = response.store;
+          if(response.status == 200){
+            eliminarHtmlListas();
+            generarHtmlListas(response.todoLists, estaEnModoPublico);
+            store = response.store;
+          }
+          else if(response.status == 418){
+            //TODO
+          }
         });
       }
       class ListaTareas{
@@ -163,14 +169,17 @@
       }
 
       function actualizarScope(select){
-        console.log(select.value);
         if(select.value == "publico"){
           localStorage.setItem("esPublico", true);
         }
         else{
           localStorage.setItem("esPublico", false);
         }
-        obtenerListasTareas(localStorage.getItem("esPublico"));
+        obtenerListasTareas();
+      }
+
+      function iniciarPollingListas(){
+        setInterval(obtenerListasTareas, 10000);
       }
 
       var listasTareas;
@@ -179,7 +188,8 @@
     $( document ).ready(function() {
         localStorage.setItem("esPublico", true);
         listasTareas = [];
-        obtenerListasTareas(localStorage.getItem("esPublico"));
+        obtenerListasTareas();
+        iniciarPollingListas();
     });
 
     </script>
