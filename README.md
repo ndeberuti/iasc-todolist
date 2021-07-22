@@ -59,6 +59,15 @@ npm run restart-private
 > En este caso el servidor va a notificar a los clientes que se comuniquen que se cayó y necesita que se le proporcione un estado.
 > Los clientes nuevos no deberían poder recuperar el estado del server
 
+# API
+
+## isPublicHeader
+``` Javascript
+header: {"isPublicMode": true| false}
+```
+Todas las llamadas al backend tienen que incluir el header booleano *isPublicMode*. Este determina si redirigimos al shard con listas publicas
+o privadas
+
 ## Agregar
 ``` Javascript
 POST /task
@@ -68,7 +77,7 @@ response: 409 {"message": "Fue imposible agregar la task", "todoList": todolist}
 ```
 Devolvemos la lista por si en el medio tuvo actualizaciones. Con el response se actualiza la UI.
 
-Siempre se agrega al final de la lista
+Siempre se agrega al final de la lista.
 
 Frente al **`409`** mostramos el contenido del campo `message` y si `todoList: null` además debemos redirgir a **`/listas`** porque la lista ha sido borrada. 
 
