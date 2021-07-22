@@ -195,6 +195,7 @@
         constructor(unId, unNombre){
           this.id = unId;
           this.nombre = unNombre;
+          this.duenio = "";
           this.esPublica = true;
           this.tareas = [];
         }
@@ -302,6 +303,7 @@
 
       function actualizarLista(listaActualizadaDelServer){
         listaTareas.tareas = [];
+        listaTareas.duenio = listaActualizadaDelServer.owner;
         listaTareas.esPublica = listaActualizadaDelServer.isPublic;
         listaActualizadaDelServer.tasks
           .forEach(task => {
@@ -445,6 +447,15 @@
         start: function(e, ui) {
           // creates a temporary attribute on the element with the old index
           $(this).attr('data-previndex', ui.item.index());
+          seEstaMoviendoUnaTarea = true;
+        },
+
+        stop: function(e, ui) {
+          seEstaMoviendoUnaTarea = false;
+          if(seIntentoActualizarMiestrasSeMoviaUnaTarea){
+            actualizarTareasHtml();
+            seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
+          }
         },
 
         update: function(event, ui){
@@ -521,7 +532,13 @@
           if(response.status == 200){
             listaActualizada = response.body.todoList;
             actualizarLista(listaActualizada);
-            actualizarTareasHtml();
+            if(!seEstaMoviendoUnaTarea){
+              actualizarTareasHtml();
+              seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
+            }
+            else{
+              seIntentoActualizarMiestrasSeMoviaUnaTarea = true;
+            }
             actualizarNombreLista();
           }
           else if (response.status == 409){
@@ -606,8 +623,12 @@
       var listaTareas;
       var listasDeTareas;
       var direccionServer;
+      var seEstaMoviendoUnaTarea;
+      var seIntentoActualizarMiestrasSeMoviaUnaTarea;
 
       $( document ).ready(function() {
+        seEstaMoviendoUnaTarea = false;
+        seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
         direccionServer = "http://localhost:3000";
         listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
         enviarRequestActualizarLista(listaTareas.id);
