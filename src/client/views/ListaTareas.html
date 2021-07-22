@@ -1,61 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Lista ToDo | TreII0</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<head>
+  <meta charset="utf-8">
+  <title>Lista ToDo | TreII0</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css">
 
-    <style type="text/css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    *{
+  <style type="text/css">
+    * {
       margin: 0;
       padding: 0;
-      font-family: "montserrat",sans-serif;
+      font-family: "montserrat", sans-serif;
       box-sizing: border-box;
     }
 
-    html body{
+    html body {
       background-color: #fafafa;
       min-height: 100vh;
     }
 
 
-    .container{
+    .container {
       margin: auto;
       padding: 10px;
     }
 
-    .divTitulo{
+    .divTitulo {
       text-align: center;
       margin-top: 10px;
       margin-bottom: 30px;
     }
 
-    .containerTareas{
+    .containerTareas {
       padding-top: 30px;
     }
 
-    .lista{
+    .lista {
       list-style-type: none;
     }
 
-    .checked{
+    .checked {
       text-decoration: line-through;
       color: #737373;
     }
 
-    .divAñadirItem{
+    .divAñadirItem {
       align-items: center;
       padding: 10px;
     }
 
-    .fas.fa-plus-circle{
-      font-size:48px;
+    .fas.fa-plus-circle {
+      font-size: 48px;
       border-radius: 25px;
       cursor: pointer;
       transition: 0.3s;
@@ -63,11 +67,11 @@
       color: #1a53ff;
     }
 
-    .fas.fa-plus-circle:hover{
+    .fas.fa-plus-circle:hover {
       transform: scale(1.15);
     }
 
-    .txtAñadirTarea{
+    .txtAñadirTarea {
       width: 94%;
       border: none;
       border-bottom: 2px solid #000;
@@ -76,11 +80,11 @@
       font-size: 18px;
     }
 
-    h3{
+    h3 {
       margin: 10px 0;
     }
 
-    .divTarea{
+    .divTarea {
       width: 100%;
       background: #e6e6e6;
       padding: 16px;
@@ -89,562 +93,562 @@
       transition: 0.1s;
     }
 
-    .divTarea:hover{
+    .divTarea:hover {
       transform: scale(1.05);
     }
 
-    .lblTarea{
+    .lblTarea {
       font-size: 18px;
     }
 
-    .divTarea i{
+    .divTarea i {
       float: right;
       margin-left: 20px;
       font-size: 18px;
       cursor: pointer;
     }
+  </style>
 
-    </style>
+</head>
 
-  </head>
-  <body>
+<body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="./Listas.html">TreII0</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="./listas">TreII0</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse  navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="./Listas.html">Listas</a>
+          <a class="nav-link" href="./listas">Listas</a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-           <a href="./Inicio.html" class="nav-link" id="logoutBtn" onclick="logout()">Cerrar Sesion</a>
+          <a href="./inicio" class="nav-link" id="logoutBtn" onclick="logout()">Cerrar Sesion</a>
         </li>
       </ul>
     </div>
-    </nav>
+  </nav>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalLabel">Editar</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+  <!-- Modal -->
+  <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Editar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <textarea class="form-control" rows="2" id="txtItem"></textarea>
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <textarea class="form-control" rows="2" id="txtItem" ></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnGuardar">Guardar</button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnGuardar">Guardar</button>
         </div>
       </div>
     </div>
+  </div>
 
 
-    <div class="container" name="contenedor" id="contenedor">
+  <div class="container" name="contenedor" id="contenedor">
 
-      <div class="divTitulo" id="divTitulo">
-        <h2 id="nombreLista"></h2>
-      </div>
-
-      <div class="divAñadirItem" id="divAñadirItem">
-        <input type="text" class="txtAñadirTarea" placeholder="Agrega una tarea" id="txtNuevaTarea">
-        <i class="fas fa-plus-circle" id="iconAñadirItem"></i>
-      </div>
-
-      <div class="containerTareas" id="divTareas">
-        <ul id="lstTareas" class="lista">
-        </ul>
-      </div>
-
+    <div class="divTitulo" id="divTitulo">
+      <h2 id="nombreLista"></h2>
     </div>
-    <label id="lblIdTareaQueSeEstaEditando" hidden="true"></label>
 
-    <script type="text/javascript">
+    <div class="divAñadirItem" id="divAñadirItem">
+      <input type="text" class="txtAñadirTarea" placeholder="Agrega una tarea" id="txtNuevaTarea">
+      <i class="fas fa-plus-circle" id="iconAñadirItem"></i>
+    </div>
 
-      class Tarea{
-        constructor(id, descripcion, estasTerminada){
-          this.id = id;
-          this.descripcion = descripcion;
-          this.estasTerminada = estasTerminada;
-          this.idSiguienteTarea = null;
-          this.idAnteriorTarea = null;
-        }
-        terminate(){
-          this.estasTerminada = true;
-        }
-        pasaAPendiente(){
-          this.estasTerminada = false;
-        }
+    <div class="containerTareas" id="divTareas">
+      <ul id="lstTareas" class="lista">
+      </ul>
+    </div>
+
+  </div>
+  <label id="lblIdTareaQueSeEstaEditando" hidden="true"></label>
+
+  <script type="text/javascript">
+
+    class Tarea {
+      constructor(id, descripcion, estasTerminada) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.estasTerminada = estasTerminada;
+        this.idSiguienteTarea = null;
+        this.idAnteriorTarea = null;
+      }
+      terminate() {
+        this.estasTerminada = true;
+      }
+      pasaAPendiente() {
+        this.estasTerminada = false;
+      }
+    }
+
+    class ListaTareas {
+      constructor(unId, unNombre) {
+        this.id = unId;
+        this.nombre = unNombre;
+        this.duenio = "";
+        this.esPublica = true;
+        this.tareas = [];
+      }
+      obtenerUltimaTareaDeLaLista() {
+        if (this.tareas.length == 1) return this.tareas[0];
+        return this.tareas.find(unaTarea => unaTarea.idSiguienteTarea == null && unaTarea.idAnteriorTarea != null);
       }
 
-      class ListaTareas{
-        constructor(unId, unNombre){
-          this.id = unId;
-          this.nombre = unNombre;
-          this.duenio = "";
-          this.esPublica = true;
-          this.tareas = [];
-        }
-        obtenerUltimaTareaDeLaLista(){
-          if (this.tareas.length == 1) return this.tareas[0];
-          return this.tareas.find(unaTarea => unaTarea.idSiguienteTarea==null && unaTarea.idAnteriorTarea!=null);
-        }
+      obtenerPrimerTareaDeLaLista() {
+        if (this.tareas.length == 1) return this.tareas[0];
+        return this.tareas.find(unaTarea => unaTarea.idAnteriorTarea == null && unaTarea.idSiguienteTarea != null);
+      }
 
-        obtenerPrimerTareaDeLaLista(){
-          if (this.tareas.length == 1) return this.tareas[0];
-          return this.tareas.find(unaTarea => unaTarea.idAnteriorTarea==null && unaTarea.idSiguienteTarea!=null);
+      obteneTareasOrdenadas() {
+        var tareasOrdenadas = [];
+        var primerTarea = this.obtenerPrimerTareaDeLaLista();
+        var unaTarea = primerTarea;
+        while (unaTarea != null) {
+          tareasOrdenadas.push(unaTarea);
+          unaTarea = this.obtenerTareaSegunId(unaTarea.idSiguienteTarea);
         }
+        return tareasOrdenadas;
+      }
 
-        obteneTareasOrdenadas(){
-          var tareasOrdenadas = [];
-          var primerTarea = this.obtenerPrimerTareaDeLaLista();
-          var unaTarea = primerTarea;
-          while(unaTarea!=null){
-            tareasOrdenadas.push(unaTarea);
-            unaTarea = this.obtenerTareaSegunId(unaTarea.idSiguienteTarea);
-          }
-          return tareasOrdenadas;
-        }
+      agregaLogicamente(unaTarea, unaPosicion) {
+        this.eliminaLogicamente(unaTarea);
+        var tareasOrdenadas = this.obteneTareasOrdenadas();
 
-        agregaLogicamente(unaTarea, unaPosicion){
-          this.eliminaLogicamente(unaTarea);
-          var tareasOrdenadas = this.obteneTareasOrdenadas();
-
-          if(unaPosicion==1){
-            unaTarea.idAnteriorTarea = null;
-            unaTarea.idSiguienteTarea = tareasOrdenadas[unaPosicion-1].id;
-            tareasOrdenadas[unaPosicion-1].idAnteriorTarea = unaTarea.id;
-          }
-          else if(unaPosicion==this.tareas.length){
-            unaTarea.idSiguienteTarea=null;
-            unaTarea.idAnteriorTarea = tareasOrdenadas[unaPosicion-2].id;
-            tareasOrdenadas[unaPosicion-2].idSiguienteTarea = unaTarea.id;
-          }
-          else{
-            unaTarea.idAnteriorTarea = tareasOrdenadas[unaPosicion-2].id;
-            unaTarea.idSiguienteTarea = tareasOrdenadas[unaPosicion-1].id;
-            tareasOrdenadas[unaPosicion-2].idSiguienteTarea = unaTarea.id;
-            tareasOrdenadas[unaPosicion-1].idAnteriorTarea = unaTarea.id;
-          }
-        }
-
-        agregaAlFinal(unaTarea){
-          var ultimaTareaDeLaLista = this.obtenerUltimaTareaDeLaLista();
-          if(ultimaTareaDeLaLista!=null){
-            ultimaTareaDeLaLista.idSiguienteTarea = unaTarea.id;
-            unaTarea.idAnteriorTarea = ultimaTareaDeLaLista.id;
-          }
-          this.tareas.push(unaTarea);
-        }
-
-        agrega(unaTarea){
-          this.tareas.push(unaTarea);
-        }
-
-        eliminaLogicamente(unaTarea){
-          this.tareas
-            .filter(unaTareaDeLaLista => unaTareaDeLaLista.idSiguienteTarea == unaTarea.id)
-            .forEach(unaTareaDeLaLista => unaTareaDeLaLista.idSiguienteTarea = unaTarea.idSiguienteTarea);
-          this.tareas
-            .filter(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea == unaTarea.id)
-            .forEach(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea = unaTarea.idAnteriorTarea);
+        if (unaPosicion == 1) {
           unaTarea.idAnteriorTarea = null;
+          unaTarea.idSiguienteTarea = tareasOrdenadas[unaPosicion - 1].id;
+          tareasOrdenadas[unaPosicion - 1].idAnteriorTarea = unaTarea.id;
+        }
+        else if (unaPosicion == this.tareas.length) {
           unaTarea.idSiguienteTarea = null;
+          unaTarea.idAnteriorTarea = tareasOrdenadas[unaPosicion - 2].id;
+          tareasOrdenadas[unaPosicion - 2].idSiguienteTarea = unaTarea.id;
         }
-
-        moveA(unaTarea, unaPosicion){
-          this.eliminaLogicamente(unaTarea);
-          this.agregaLogicamente(unaTarea, unaPosicion);
-        }
-
-        elimina(unaTarea){
-          this.eliminaLogicamente(unaTarea);
-          this.tareas = $.grep(this.tareas, function(unaTareaDeLaLista) {
-            return unaTareaDeLaLista != unaTarea;
-          });
-        }
-
-        obteneTareaSegunPosicion(unaPosicion){
-          return this.obteneTareasOrdenadas()[unaPosicion-1];
-        }
-
-        obtenerTareaSegunId(unId){
-          return this.tareas.find(function(unaTarea){
-            return unaTarea.id == unId;
-          });
+        else {
+          unaTarea.idAnteriorTarea = tareasOrdenadas[unaPosicion - 2].id;
+          unaTarea.idSiguienteTarea = tareasOrdenadas[unaPosicion - 1].id;
+          tareasOrdenadas[unaPosicion - 2].idSiguienteTarea = unaTarea.id;
+          tareasOrdenadas[unaPosicion - 1].idAnteriorTarea = unaTarea.id;
         }
       }
 
-      function obtenerNombreLista(){
-        return "Lista1";
+      agregaAlFinal(unaTarea) {
+        var ultimaTareaDeLaLista = this.obtenerUltimaTareaDeLaLista();
+        if (ultimaTareaDeLaLista != null) {
+          ultimaTareaDeLaLista.idSiguienteTarea = unaTarea.id;
+          unaTarea.idAnteriorTarea = ultimaTareaDeLaLista.id;
+        }
+        this.tareas.push(unaTarea);
       }
 
-      function obtenerIdLista(){
-        return localStorage.getItem("idLista");
+      agrega(unaTarea) {
+        this.tareas.push(unaTarea);
       }
 
-      function laListaEsPublica(){
-        return localStorage.getItem("esPublico");
+      eliminaLogicamente(unaTarea) {
+        this.tareas
+          .filter(unaTareaDeLaLista => unaTareaDeLaLista.idSiguienteTarea == unaTarea.id)
+          .forEach(unaTareaDeLaLista => unaTareaDeLaLista.idSiguienteTarea = unaTarea.idSiguienteTarea);
+        this.tareas
+          .filter(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea == unaTarea.id)
+          .forEach(unaTareaDeLaLista => unaTareaDeLaLista.idAnteriorTarea = unaTarea.idAnteriorTarea);
+        unaTarea.idAnteriorTarea = null;
+        unaTarea.idSiguienteTarea = null;
       }
 
-      function obtenerIdTareaNueva(){
-        return listaTareas.tareas.length.toString();
+      moveA(unaTarea, unaPosicion) {
+        this.eliminaLogicamente(unaTarea);
+        this.agregaLogicamente(unaTarea, unaPosicion);
       }
 
-      function logout(){
-        localStorage.removeItem("user");
+      elimina(unaTarea) {
+        this.eliminaLogicamente(unaTarea);
+        this.tareas = $.grep(this.tareas, function (unaTareaDeLaLista) {
+          return unaTareaDeLaLista != unaTarea;
+        });
       }
 
-      function actualizarLista(listaActualizadaDelServer){
-        listaTareas.tareas = [];
-        listaTareas.duenio = listaActualizadaDelServer.owner;
-        listaTareas.nombre = listaActualizadaDelServer.name;
-        listaTareas.esPublica = listaActualizadaDelServer.isPublic;
-        listaActualizadaDelServer.tasks
-          .forEach(task => {
-            var nuevaTarea = new Tarea(task.id, task.value, task.check)
-            listaTareas.agregaAlFinal(nuevaTarea);
-          });
+      obteneTareaSegunPosicion(unaPosicion) {
+        return this.obteneTareasOrdenadas()[unaPosicion - 1];
       }
 
-      function enviarRequestTarea(url, operacion, objetoAEnviar){
-        var headersDelRequest = new Headers();
-        headersDelRequest.append('Content-Type', 'application/json');
-        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
-        fetch(direccionServer+url, {
-          method: operacion,
-          headers: headersDelRequest,
-          body: JSON.stringify(objetoAEnviar),
-          mode: 'cors',
-          cache: 'default'
-        })
-        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+      obtenerTareaSegunId(unId) {
+        return this.tareas.find(function (unaTarea) {
+          return unaTarea.id == unId;
+        });
+      }
+    }
+
+    function obtenerNombreLista() {
+      return "Lista1";
+    }
+
+    function obtenerIdLista() {
+      return localStorage.getItem("idLista");
+    }
+
+    function laListaEsPublica() {
+      return localStorage.getItem("esPublico");
+    }
+
+    function obtenerIdTareaNueva() {
+      return listaTareas.tareas.length.toString();
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+    }
+
+    function actualizarLista(listaActualizadaDelServer) {
+      listaTareas.tareas = [];
+      listaTareas.duenio = listaActualizadaDelServer.owner;
+      listaTareas.nombre = listaActualizadaDelServer.name;
+      listaTareas.esPublica = listaActualizadaDelServer.isPublic;
+      listaActualizadaDelServer.tasks
+        .forEach(task => {
+          var nuevaTarea = new Tarea(task.id, task.value, task.check)
+          listaTareas.agregaAlFinal(nuevaTarea);
+        });
+    }
+
+    function enviarRequestTarea(url, operacion, objetoAEnviar) {
+      var headersDelRequest = new Headers();
+      headersDelRequest.append('Content-Type', 'application/json');
+      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      fetch(direccionServer + url, {
+        method: operacion,
+        headers: headersDelRequest,
+        body: JSON.stringify(objetoAEnviar),
+        mode: 'cors',
+        cache: 'default'
+      })
+        .then(r => r.json().then(data => ({ status: r.status, body: data })))
         .then(response => {
           var listaActualizada;
           console.log(response.status);
           console.log(response.body);
-          if(response.status == 200){
+          if (response.status == 200) {
 
             listaActualizada = response.body.todoList;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
           }
-          else if (response.status == 409){
+          else if (response.status == 409) {
             var repuestaServer = response.body;
             listaActualizada = repuestaServer.todoList;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
-          else if(response.status == 418){
+          else if (response.status == 418) {
             var repuestaServer = response.body;
             actualizarTareasHtml();
             alert(repuestaServer.message);
             enviarRequestLevantarServer();
           }
         })
-        .catch( err => {
+        .catch(err => {
           console.log(err);
         });
-      }
+    }
 
-      function generarTareaHtml(unaTarea){
+    function generarTareaHtml(unaTarea) {
 
-        var liTarea = $("<li></li>");
-        liTarea.attr("id", "item"+unaTarea.id);
-        var divTarea = $("<div class='divTarea'></div>");
+      var liTarea = $("<li></li>");
+      liTarea.attr("id", "item" + unaTarea.id);
+      var divTarea = $("<div class='divTarea'></div>");
 
-        var lblTarea = $("<label class='lblTarea'></label>");
-        lblTarea.attr("id", "lblTarea"+unaTarea.id);
-        lblTarea.text(unaTarea.descripcion);
+      var lblTarea = $("<label class='lblTarea'></label>");
+      lblTarea.attr("id", "lblTarea" + unaTarea.id);
+      lblTarea.text(unaTarea.descripcion);
 
-        divTarea.on('click', function(e) {
-          if (e.target === this){
-            lblTarea.toggleClass("checked");
-            var nuevoEstadoTArea = !unaTarea.estasTerminada;
-            //unaTarea.estasTerminada = !unaTarea.estasTerminada;
-
-            //Request
-
-            var dataAEnviar = {
-              todoListId: listaTareas.id,
-              taskId: unaTarea.id,
-              value: unaTarea.descripcion,
-              check: nuevoEstadoTArea
-            };
-            enviarRequestTarea('/task', 'PUT', dataAEnviar);
-          }
-        });
-
-        var imgEliminar = $("<i class='fas fa-trash-alt'></i>").click(function(){
-          //listaTareas.elimina(unaTarea);
-          var p = $(this).parent();
-            p.fadeOut(function(){
-            p.remove();
-            liTarea.remove();
-          });
-
-          //  Request
-          var dataAEnviar = {
-            todoListId: listaTareas.id,
-            taskId: unaTarea.id
-          };
-          enviarRequestTarea('/task', 'DELETE', dataAEnviar);
-        });
-
-        var imgEditar = $("<i class='fas fa-pen' data-toggle='modal' data-target='#modalEditar'></i>").click(function(){
-          $("#txtItem").val(unaTarea.descripcion);
-          $("#lblIdTareaQueSeEstaEditando").text(unaTarea.id);
-        });
-
-        divTarea.append(imgEliminar, imgEditar, lblTarea);
-        liTarea.append(divTarea)
-        $("#lstTareas").append(liTarea);
-
-        if(unaTarea.estasTerminada){
+      divTarea.on('click', function (e) {
+        if (e.target === this) {
           lblTarea.toggleClass("checked");
-        }
-      }
-
-      function generarTareasHtml(){
-        listaTareas.obteneTareasOrdenadas().forEach(unaTarea => generarTareaHtml(unaTarea));
-      }
-
-      function removerTareasHtml(){
-        $("#lstTareas").empty();
-      }
-
-      function actualizarTareasHtml(){
-        removerTareasHtml();
-        generarTareasHtml();
-      }
-
-      $("#btnGuardar").click(function(){
-        var idTareaEditada = $("#lblIdTareaQueSeEstaEditando").text();
-        var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
-        var descripcionTarea = $("#txtItem").val();
-        //tareaEditada.descripcion = $("#txtItem").val();
-        $("#lblTarea"+idTareaEditada).text(tareaEditada.descripcion);
-
-        //Request
-
-        var dataAEnviar = {
-          todoListId: listaTareas.id,
-          taskId: tareaEditada.id,
-          value: descripcionTarea,
-          check: tareaEditada.estasTerminada
-        };
-        enviarRequestTarea('/task', 'PUT', dataAEnviar);
-      });
-
-      $( "#lstTareas" ).sortable({
-
-        start: function(e, ui) {
-          // creates a temporary attribute on the element with the old index
-          $(this).attr('data-previndex', ui.item.index());
-          seEstaMoviendoUnaTarea = true;
-        },
-
-        stop: function(e, ui) {
-          seEstaMoviendoUnaTarea = false;
-          if(seIntentoActualizarMiestrasSeMoviaUnaTarea){
-            actualizarTareasHtml();
-            seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
-          }
-        },
-
-        update: function(event, ui){
-          var posicionADondeSeMueve = ui.item.index()+1;
-          var posicionVieja = parseInt($(this).attr('data-previndex'))+1;
-          var tareaQueSeMueve = listaTareas.obteneTareaSegunPosicion(posicionVieja);
-          listaTareas.moveA(tareaQueSeMueve, posicionADondeSeMueve);
+          var nuevoEstadoTArea = !unaTarea.estasTerminada;
+          //unaTarea.estasTerminada = !unaTarea.estasTerminada;
 
           //Request
 
-          var tareaMovida = listaTareas.obteneTareaSegunPosicion(posicionADondeSeMueve);
           var dataAEnviar = {
             todoListId: listaTareas.id,
-            taskId: tareaMovida.id,
-            before: tareaMovida.idSiguienteTarea,
-            after: tareaMovida.idAnteriorTarea
+            taskId: unaTarea.id,
+            value: unaTarea.descripcion,
+            check: nuevoEstadoTArea
           };
-          listaTareas.moveA(tareaQueSeMueve, posicionVieja);
-          console.log(listaTareas.tareas);
-          console.log(dataAEnviar);
-          enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
+          enviarRequestTarea('/task', 'PUT', dataAEnviar);
         }
       });
-      $( "#lstTareas" ).disableSelection();
 
-      function agregarTareaNueva(){
-        var descripcionTarea = $("#txtNuevaTarea").val();
-        var estaTerminada = false;
-        var idTarea = obtenerIdTareaNueva();
+      var imgEliminar = $("<i class='fas fa-trash-alt'></i>").click(function () {
+        //listaTareas.elimina(unaTarea);
+        var p = $(this).parent();
+        p.fadeOut(function () {
+          p.remove();
+          liTarea.remove();
+        });
 
-        var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
-        //listaTareas.agregaAlFinal(tarea);
+        //  Request
+        var dataAEnviar = {
+          todoListId: listaTareas.id,
+          taskId: unaTarea.id
+        };
+        enviarRequestTarea('/task', 'DELETE', dataAEnviar);
+      });
 
-        //generarTareaHtml(tarea);
+      var imgEditar = $("<i class='fas fa-pen' data-toggle='modal' data-target='#modalEditar'></i>").click(function () {
+        $("#txtItem").val(unaTarea.descripcion);
+        $("#lblIdTareaQueSeEstaEditando").text(unaTarea.id);
+      });
+
+      divTarea.append(imgEliminar, imgEditar, lblTarea);
+      liTarea.append(divTarea)
+      $("#lstTareas").append(liTarea);
+
+      if (unaTarea.estasTerminada) {
+        lblTarea.toggleClass("checked");
+      }
+    }
+
+    function generarTareasHtml() {
+      listaTareas.obteneTareasOrdenadas().forEach(unaTarea => generarTareaHtml(unaTarea));
+    }
+
+    function removerTareasHtml() {
+      $("#lstTareas").empty();
+    }
+
+    function actualizarTareasHtml() {
+      removerTareasHtml();
+      generarTareasHtml();
+    }
+
+    $("#btnGuardar").click(function () {
+      var idTareaEditada = $("#lblIdTareaQueSeEstaEditando").text();
+      var tareaEditada = listaTareas.obtenerTareaSegunId(idTareaEditada);
+      var descripcionTarea = $("#txtItem").val();
+      //tareaEditada.descripcion = $("#txtItem").val();
+      $("#lblTarea" + idTareaEditada).text(tareaEditada.descripcion);
+
+      //Request
+
+      var dataAEnviar = {
+        todoListId: listaTareas.id,
+        taskId: tareaEditada.id,
+        value: descripcionTarea,
+        check: tareaEditada.estasTerminada
+      };
+      enviarRequestTarea('/task', 'PUT', dataAEnviar);
+    });
+
+    $("#lstTareas").sortable({
+
+      start: function (e, ui) {
+        // creates a temporary attribute on the element with the old index
+        $(this).attr('data-previndex', ui.item.index());
+        seEstaMoviendoUnaTarea = true;
+      },
+
+      stop: function (e, ui) {
+        seEstaMoviendoUnaTarea = false;
+        if (seIntentoActualizarMiestrasSeMoviaUnaTarea) {
+          actualizarTareasHtml();
+          seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
+        }
+      },
+
+      update: function (event, ui) {
+        var posicionADondeSeMueve = ui.item.index() + 1;
+        var posicionVieja = parseInt($(this).attr('data-previndex')) + 1;
+        var tareaQueSeMueve = listaTareas.obteneTareaSegunPosicion(posicionVieja);
+        listaTareas.moveA(tareaQueSeMueve, posicionADondeSeMueve);
 
         //Request
 
+        var tareaMovida = listaTareas.obteneTareaSegunPosicion(posicionADondeSeMueve);
         var dataAEnviar = {
           todoListId: listaTareas.id,
-          value: tarea.descripcion
+          taskId: tareaMovida.id,
+          before: tareaMovida.idSiguienteTarea,
+          after: tareaMovida.idAnteriorTarea
         };
-        enviarRequestTarea('/task', 'POST', dataAEnviar);
-
-        $("#txtNuevaTarea").val("");
+        listaTareas.moveA(tareaQueSeMueve, posicionVieja);
+        console.log(listaTareas.tareas);
+        console.log(dataAEnviar);
+        enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
       }
+    });
+    $("#lstTareas").disableSelection();
 
-      $("#txtNuevaTarea").on("keyup",function(e){
-        //13  means enter button
-        if(e.keyCode == 13 && $("#txtNuevaTarea").val() != "")
-        {
-          agregarTareaNueva();
-        }
-      });
+    function agregarTareaNueva() {
+      var descripcionTarea = $("#txtNuevaTarea").val();
+      var estaTerminada = false;
+      var idTarea = obtenerIdTareaNueva();
 
-      $("#iconAñadirItem").click(function(){
-        if($("#txtNuevaTarea").val() != "")
-        {
-          agregarTareaNueva();
-        }
-      });
+      var tarea = new Tarea(idTarea, descripcionTarea, estaTerminada);
+      //listaTareas.agregaAlFinal(tarea);
 
-      function enviarRequestActualizarLista(idLista){
-        var headersDelRequest = new Headers();
-        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
-        fetch(direccionServer+'/list/'+idLista, {
-          method: 'GET',
-          mode: 'cors',
-          cache: 'default',
-          headers: headersDelRequest
-        })
-        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
-        .then( response => {
+      //generarTareaHtml(tarea);
+
+      //Request
+
+      var dataAEnviar = {
+        todoListId: listaTareas.id,
+        value: tarea.descripcion
+      };
+      enviarRequestTarea('/task', 'POST', dataAEnviar);
+
+      $("#txtNuevaTarea").val("");
+    }
+
+    $("#txtNuevaTarea").on("keyup", function (e) {
+      //13  means enter button
+      if (e.keyCode == 13 && $("#txtNuevaTarea").val() != "") {
+        agregarTareaNueva();
+      }
+    });
+
+    $("#iconAñadirItem").click(function () {
+      if ($("#txtNuevaTarea").val() != "") {
+        agregarTareaNueva();
+      }
+    });
+
+    function enviarRequestActualizarLista(idLista) {
+      var headersDelRequest = new Headers();
+      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      fetch(direccionServer + '/list/' + idLista, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        headers: headersDelRequest
+      })
+        .then(r => r.json().then(data => ({ status: r.status, body: data })))
+        .then(response => {
           var listaActualizada;
-          if(response.status == 200){
+          if (response.status == 200) {
             listaActualizada = response.body.todoList;
             actualizarLista(listaActualizada);
-            if(!seEstaMoviendoUnaTarea){
+            if (!seEstaMoviendoUnaTarea) {
               actualizarTareasHtml();
               seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
             }
-            else{
+            else {
               seIntentoActualizarMiestrasSeMoviaUnaTarea = true;
             }
             actualizarNombreLista();
           }
-          else if (response.status == 409){
+          else if (response.status == 409) {
             var repuestaServer = response.body;
             listaActualizada = repuestaServer.todoList;
             actualizarLista(listaActualizada);
             actualizarTareasHtml();
             alert(repuestaServer.message);
           }
-          else if(response.status == 418){
+          else if (response.status == 418) {
             var repuestaServer = response.body;
             actualizarTareasHtml();
             alert(repuestaServer.message);
             enviarRequestLevantarServer();
           }
         })
-        .catch( err => {
+        .catch(err => {
           console.log(err);
         });
-      }
+    }
 
-      function enviarRequestListas(){
-        var headersDelRequest = new Headers();
-        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
-        fetch(direccionServer+'/lists', {
-          method: 'GET',
-          mode: 'cors',
-          cache: 'default',
-          headers: headersDelRequest
-        })
-        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
-        .then( response => {
+    function enviarRequestListas() {
+      var headersDelRequest = new Headers();
+      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      fetch(direccionServer + '/lists', {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        headers: headersDelRequest
+      })
+        .then(r => r.json().then(data => ({ status: r.status, body: data })))
+        .then(response => {
           var listaActualizada;
-          if(response.status == 200){
-            listasDeTareas =  response.body.store;
+          if (response.status == 200) {
+            listasDeTareas = response.body.store;
           }
         })
-        .catch( err => {
+        .catch(err => {
           console.log(err);
         });
-      }
+    }
 
-      function enviarRequestLevantarServer(){
-        var objetoAEnviar = {
-          serverState: listasDeTareas
-        };
+    function enviarRequestLevantarServer() {
+      var objetoAEnviar = {
+        serverState: listasDeTareas
+      };
 
-        var headersDelRequest = new Headers();
-        headersDelRequest.append('Content-Type', 'application/json');
-        headersDelRequest.append('isPublicMode', listaTareas.esPublica);
-        fetch(direccionServer+'/server/restore', {
-          method: 'POST',
-          headers: headersDelRequest,
-          body: objetoAEnviar,
-          mode: 'cors',
-          cache: 'default'
-        })
-        .then(r =>  r.json().then(data => ({status: r.status, body: data})))
+      var headersDelRequest = new Headers();
+      headersDelRequest.append('Content-Type', 'application/json');
+      headersDelRequest.append('isPublicMode', listaTareas.esPublica);
+      fetch(direccionServer + '/server/restore', {
+        method: 'POST',
+        headers: headersDelRequest,
+        body: objetoAEnviar,
+        mode: 'cors',
+        cache: 'default'
+      })
+        .then(r => r.json().then(data => ({ status: r.status, body: data })))
         .then(response => {
-          if(response.status == 200){
+          if (response.status == 200) {
             var respuestaServer = response.body;
             alert('Se reestablecio la coneccion con el servidor');
           }
         })
-        .catch( err => {
+        .catch(err => {
           console.log(err);
         });
-      }
+    }
 
-      function iniciarPollingListas(){
-        setInterval(enviarRequestListas, 10000);
-      }
+    function iniciarPollingListas() {
+      setInterval(enviarRequestListas, 10000);
+    }
 
-      function iniciarPollingLista(){
-        setInterval(enviarRequestActualizarLista, 10000, listaTareas.id);
-      }
+    function iniciarPollingLista() {
+      setInterval(enviarRequestActualizarLista, 10000, listaTareas.id);
+    }
 
-      function actualizarNombreLista(){
-        $( "#nombreLista" ).text(listaTareas.nombre);
-      }
+    function actualizarNombreLista() {
+      $("#nombreLista").text(listaTareas.nombre);
+    }
 
-      var listaTareas;
-      var listasDeTareas;
-      var direccionServer;
-      var seEstaMoviendoUnaTarea;
-      var seIntentoActualizarMiestrasSeMoviaUnaTarea;
+    var listaTareas;
+    var listasDeTareas;
+    var direccionServer;
+    var seEstaMoviendoUnaTarea;
+    var seIntentoActualizarMiestrasSeMoviaUnaTarea;
 
-      $( document ).ready(function() {
-        seEstaMoviendoUnaTarea = false;
-        seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
-        direccionServer = "http://localhost:3003";
-        listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
-        listaTareas.esPublica = laListaEsPublica();
-        enviarRequestActualizarLista(listaTareas.id);
-        iniciarPollingLista();
-        iniciarPollingListas();
-      });
+    $(document).ready(function () {
+      seEstaMoviendoUnaTarea = false;
+      seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
+      direccionServer = "http://localhost:3003";
+      listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
+      listaTareas.esPublica = laListaEsPublica();
+      enviarRequestActualizarLista(listaTareas.id);
+      iniciarPollingLista();
+      iniciarPollingListas();
+    });
 
-    </script>
+  </script>
 
-  </body>
+</body>
+
 </html>
