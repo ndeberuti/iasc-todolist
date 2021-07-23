@@ -588,20 +588,21 @@
     }
 
     function enviarRequestLevantarServer() {
-      var objetoAEnviar = {
-        serverState: listasDeTareas
-      };
+      if(listasDeTareas!=null){
+        var objetoAEnviar = {
+          serverState: listasDeTareas
+        };
 
-      var headersDelRequest = new Headers();
-      headersDelRequest.append('Content-Type', 'application/json');
-      headersDelRequest.append('isPublicMode', laListaEsPublica());
-      fetch(direccionServer + '/server/restore', {
-        method: 'POST',
-        headers: headersDelRequest,
-        body: JSON.stringify(objetoAEnviar),
-        mode: 'cors',
-        cache: 'default'
-      })
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('Content-Type', 'application/json');
+        headersDelRequest.append('isPublicMode', laListaEsPublica());
+        fetch(direccionServer + '/server/restore', {
+          method: 'POST',
+          headers: headersDelRequest,
+          body: JSON.stringify(objetoAEnviar),
+          mode: 'cors',
+          cache: 'default'
+        })
         .then(r => r.json().then(data => ({ status: r.status, body: data })))
         .then(response => {
           if (response.status == 200) {
@@ -612,6 +613,7 @@
         .catch(err => {
           console.log(err);
         });
+      }
     }
 
     function iniciarPollingListas() {
@@ -635,6 +637,7 @@
     $(document).ready(function () {
       seEstaMoviendoUnaTarea = false;
       seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
+      listasDeTareas = null;
       direccionServer = "http://localhost:3003";
       listaTareas = new ListaTareas(obtenerIdLista(), obtenerNombreLista());
       listaTareas.esPublica = laListaEsPublica();

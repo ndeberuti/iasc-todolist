@@ -105,10 +105,6 @@
 
     <div class="row" id="containerListas">
 
-      <div class="card bg-light mb-3">
-        <h5 class="card-title">Lista To Do</h5>
-      </div>
-
     </div>
 
   </div>
@@ -149,7 +145,6 @@
 
     }
 
-    //Por ahora hardcodeo listas, pero las deberia objener del server
     function obtenerListasTareas() {
       var estaEnModoPublico = localStorage.getItem("esPublico");
       fetch('http://localhost:3003/lists', {
