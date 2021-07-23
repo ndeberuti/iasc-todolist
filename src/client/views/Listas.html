@@ -119,12 +119,12 @@
     function enviarRequestLevantarServer() {
       if(store!=null){
         var objetoAEnviar = {
-          serverState: listasDeTareas
+          serverState: store
         };
         var headersDelRequest = new Headers();
         headersDelRequest.append('Content-Type', 'application/json');
-        headersDelRequest.append('isPublicMode', laListaEsPublica());
-        fetch(direccionServer + '/server/restore', {
+        headersDelRequest.append('isPublicMode', localStorage.getItem('esPublico'));
+        fetch('http://localhost:3003/server/restore', {
           method: 'POST',
           headers: headersDelRequest,
           body: JSON.stringify(objetoAEnviar),
