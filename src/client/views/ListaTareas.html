@@ -338,8 +338,6 @@
         .then(r => r.json().then(data => ({ status: r.status, body: data })))
         .then(response => {
           var listaActualizada;
-          console.log(response.status);
-          console.log(response.body);
           if (response.status == 200) {
 
             listaActualizada = response.body.todoList;
@@ -486,8 +484,6 @@
           after: tareaMovida.idAnteriorTarea
         };
         listaTareas.moveA(tareaQueSeMueve, posicionVieja);
-        console.log(listaTareas.tareas);
-        console.log(dataAEnviar);
         enviarRequestTarea('/tasks', 'PUT', dataAEnviar);
       }
     });
