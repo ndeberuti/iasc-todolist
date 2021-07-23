@@ -462,10 +462,6 @@
 
       stop: function (e, ui) {
         seEstaMoviendoUnaTarea = false;
-        if (seIntentoActualizarMiestrasSeMoviaUnaTarea) {
-          actualizarTareasHtml();
-          seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
-        }
       },
 
       update: function (event, ui) {
@@ -524,46 +520,43 @@
     });
 
     function enviarRequestActualizarLista(idLista) {
-      var headersDelRequest = new Headers();
-      headersDelRequest.append('isPublicMode', laListaEsPublica());
-      fetch(direccionServer + '/list/' + idLista, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default',
-        headers: headersDelRequest
-      })
-        .then(r => r.json().then(data => ({ status: r.status, body: data })))
-        .then(response => {
-          var listaActualizada;
-          if (response.status == 200) {
-            listaActualizada = response.body.todoList;
-            actualizarLista(listaActualizada);
-            if (!seEstaMoviendoUnaTarea) {
-              actualizarTareasHtml();
-              seIntentoActualizarMiestrasSeMoviaUnaTarea = false;
-            }
-            else {
-              seIntentoActualizarMiestrasSeMoviaUnaTarea = true;
-            }
-            actualizarNombreLista();
-          }
-          else if (response.status == 409) {
-            var repuestaServer = response.body;
-            listaActualizada = repuestaServer.todoList;
-            actualizarLista(listaActualizada);
-            actualizarTareasHtml();
-            alert(repuestaServer.message);
-          }
-          else if (response.status == 418) {
-            var repuestaServer = response.body;
-            actualizarTareasHtml();
-            alert(repuestaServer.message);
-            enviarRequestLevantarServer();
-          }
+      if (!seEstaMoviendoUnaTarea) {
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('isPublicMode', laListaEsPublica());
+        fetch(direccionServer + '/list/' + idLista, {
+          method: 'GET',
+          mode: 'cors',
+          cache: 'default',
+          headers: headersDelRequest
         })
-        .catch(err => {
-          console.log(err);
-        });
+          .then(r => r.json().then(data => ({ status: r.status, body: data })))
+          .then(response => {
+            var listaActualizada;
+            if (response.status == 200) {
+              listaActualizada = response.body.todoList;
+              actualizarLista(listaActualizada);
+              actualizarTareasHtml();
+              actualizarNombreLista();
+              
+            }
+            else if (response.status == 409) {
+              var repuestaServer = response.body;
+              listaActualizada = repuestaServer.todoList;
+              actualizarLista(listaActualizada);
+              actualizarTareasHtml();
+              alert(repuestaServer.message);
+            }
+            else if (response.status == 418) {
+              var repuestaServer = response.body;
+              actualizarTareasHtml();
+              alert(repuestaServer.message);
+              enviarRequestLevantarServer();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
 
     function enviarRequestListas() {
