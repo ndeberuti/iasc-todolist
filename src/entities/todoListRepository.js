@@ -1,10 +1,17 @@
+const TodoList = require('./todoList');
+const Task = require('./task');
+
 class TodoListRepository {
   constructor(todoLists = []) {
     this.todoLists = todoLists;
   }
 
   restoreState(state) {
-    this.todoLists = state;
+    const lists = state.map((list) => Object.setPrototypeOf(list, TodoList.prototype)).map((list) => {
+      list.tasks = list.tasks.map((task) => Object.setPrototypeOf(task, Task.prototype));
+      return list;
+    });
+    this.todoLists = lists;
   }
 
   addTodoList(todoList) {

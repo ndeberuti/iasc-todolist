@@ -1,8 +1,8 @@
 const uuid = require('../lib/uuid');
 
 class TodoList {
-  constructor(owner, name = '', tasks = []) {
-    this.id = uuid();
+  constructor(owner, name = '', tasks = [], id = uuid()) {
+    this.id = id;
     this.owner = owner;
     this.name = name;
     this.tasks = tasks;

@@ -7,7 +7,7 @@
     "start-public": "node src/server/publicApp/publicApp.js",
     "restart-public": "node src/server/publicApp/recoveryPublicApp.js",
     "start-private": "node src/server/privateApp/privateApp.js",
-    "restart-private": "node src/server/privateApp/recoveryFailoverApp.js",
+    "restart-private": "node src/server/privateApp/recoveryPrivateApp.js",
     "load-balancer": "node loadBalancer/server/app.js",
     "client": "node src/client/app-client.js",
     "test": "echo \"Error: no test specified\" && exit 1"

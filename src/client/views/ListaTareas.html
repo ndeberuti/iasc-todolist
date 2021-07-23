@@ -602,7 +602,7 @@
       fetch(direccionServer + '/server/restore', {
         method: 'POST',
         headers: headersDelRequest,
-        body: objetoAEnviar,
+        body: JSON.stringify(objetoAEnviar),
         mode: 'cors',
         cache: 'default'
       })

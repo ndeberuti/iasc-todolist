@@ -1,8 +1,8 @@
 const uuid = require('../lib/uuid');
 
 class Task {
-  constructor(value = '', lastTask = null, nextTask = null) {
-    this.id = uuid();
+  constructor(value = '', lastTask = null, nextTask = null, id = uuid()) {
+    this.id = id;
     this.value = value;
     this.lastTask = lastTask;
     this.nextTask = nextTask;
