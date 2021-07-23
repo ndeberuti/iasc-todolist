@@ -70,8 +70,8 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <form action="/logout" method="post" id="logout" style="margin:0 auto;">
-            <a href="./inicio" class="nav-link" id="logoutBtn" onclick="logout()">Cerrar Sesion</a>
+          <form action="/inicio" method="get" id="logout" style="margin:0 auto;">
+            <a href="/inicio" class="nav-link" id="logoutBtn" onclick="logout()">Cerrar Sesion</a>
           </form>
         </li>
       </ul>
@@ -120,6 +120,35 @@
       localStorage.removeItem("user");
     }
 
+    function enviarRequestLevantarServer() {
+      if(store!=null){
+        var objetoAEnviar = {
+          serverState: listasDeTareas
+        };
+        var headersDelRequest = new Headers();
+        headersDelRequest.append('Content-Type', 'application/json');
+        headersDelRequest.append('isPublicMode', laListaEsPublica());
+        fetch(direccionServer + '/server/restore', {
+          method: 'POST',
+          headers: headersDelRequest,
+          body: JSON.stringify(objetoAEnviar),
+          mode: 'cors',
+          cache: 'default'
+        })
+        .then(r => r.json().then(data => ({ status: r.status, body: data })))
+        .then(response => {
+          if (response.status == 200) {
+            var respuestaServer = response.body;
+            alert('Se reestablecio la coneccion con el servidor');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }
+
+    }
+
     //Por ahora hardcodeo listas, pero las deberia objener del server
     function obtenerListasTareas() {
       var estaEnModoPublico = localStorage.getItem("esPublico");
@@ -137,7 +166,9 @@
             store = response.store;
           }
           else if (response.status == 418) {
-            //TODO
+            var repuestaServer = response.body;
+            alert(repuestaServer.message);
+            enviarRequestLevantarServer();
           }
         });
     }
@@ -217,9 +248,11 @@
     function actualizarScope(select) {
       if (select.value == "publico") {
         localStorage.setItem("esPublico", true);
+        store = null;
       }
       else {
         localStorage.setItem("esPublico", false);
+        store = null;
       }
       obtenerListasTareas();
     }
@@ -234,6 +267,7 @@
     $(document).ready(function () {
       localStorage.setItem("esPublico", true);
       listasTareas = [];
+      store = null;
       obtenerListasTareas();
       iniciarPollingListas();
     });
